@@ -35,7 +35,3 @@ Swift является новым инновационным языком про
 ENUM:
 
 <img src="http://habrastorage.org/getpro/habr/post_images/80e/7b3/247/80e7b32472006e4368ad38285184205c.jpg"/>
-
-На этом пока все. 
-
-Делимся своими мнениями.
