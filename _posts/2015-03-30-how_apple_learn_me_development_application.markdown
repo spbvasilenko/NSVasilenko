@@ -19,7 +19,7 @@ categories: iOS, objective-c, apple, development
 Код уже содержит функционал возможности изменить размер шрифта. Я использовал NSUserDefaults для сохранения значения размера шрифта и сделал небольшую проверку, где уже подставлял нужный мне html-файл. Шрифт можно установить следующим образом - маленький, средний, большой.
 
 Контроллер с настройкой шрифта: 
-<source lang="objectivec">
+{% highlight objective-c %}
 - (IBAction)selectFont:(id)sender {
     
     [self saveSetting];
@@ -45,10 +45,10 @@ categories: iOS, objective-c, apple, development
     
     self.fontSegmentedControl.selectedSegmentIndex = [userDefaults integerForKey:kSettingsFont];
 }
-</source>
+{% endhighlight %}
 
 Открытие самого webView: 
-<source lang="objectivec">
+{% highlight objectivec %}
 - (void) loadPage {
     
     NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
@@ -79,14 +79,14 @@ categories: iOS, objective-c, apple, development
         [_webView loadHTMLString:html baseURL:nil];
         
     }
-</source>
+{% endhighlight %}
 
 Несколько дней я создавал каркас приложения, меню и прочие мелочи. Сделал нужную мне несложную навигацию по частям и главам устава и в принципе, приложение было готово. Использовал open-source библиотеку <a href="https://github.com/John-Lluch/SWRevealViewController">SWRevealController</a> для меню. 
 
 Добавил в меню раздел "О приложении". 
 Здесь пользователь может рассказать в Twitter и Facebook о приложении:
 
-<source lang="objectivec">
+{% highlight objectivec %}
 #pragma mark - share actions
 
 - (IBAction)twitterShare:(UIButton *)sender {
@@ -220,14 +220,15 @@ categories: iOS, objective-c, apple, development
     return params;
 }
 
-</source>
+{% endhighlight %}
 
 Еще два дня я наводил маленькую красоту в приложении. Спешу отметить, что в первоначальной версии, которая была отправлено на Review в Apple, приложение не имело раздела “Свежие новости” - был просто один устав и все. 
 
 Приложение было отправлено на Review в начале сентября и уже через неделю я получил первый Reject от Apple. В чем же дело? Apple трактовала свою точку зрения таким образом - “Приложения, представляющие из себя песню или фильм, должны быть отправлены в iTunes Store. Приложения, представляющие из себя книгу, должны быть отправлены в iBooks Store”. 
 
 Да, в принципе, Apple были правы, так как приложение было больше похоже на книгу. Я решил добавить в функционал что-нибудь еще... Например, поток свежих новостей той же тематики, что и приложение. Взял для этого RSS-поток "РИА Новости" и парсил его c помощью NSXMLParser:
-<source lang="objectivec">
+
+{% highlight objectivec %}
 #pragma mark - NSXMLParser
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict {
@@ -293,12 +294,12 @@ categories: iOS, objective-c, apple, development
     [self.refreshControl endRefreshing];
     
 }
-</source> 
+{% endhighlight %}
 
 Для того, чтобы посмотреть новость полностью, по нажатию на ячейку таблицы, открывался контроллер с Web View
 
 Метод, который передает ссылку на новость в другой контроллер: 
-<source lang="objectivec">
+{% highlight objectivec %}
 #pragma mark - Passed data to another controller
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -312,10 +313,10 @@ categories: iOS, objective-c, apple, development
         
     }
 }
-</source>
+{% endhighlight %}
 
 Наши действия в контроллере с Web View: 
-<source lang="objectivec">
+{% highlight objectivec %}
 @implementation IVDetailViewController
 
 @synthesize titleForShare;
@@ -332,7 +333,7 @@ categories: iOS, objective-c, apple, development
     [self.navigationController.navigationBar addGestureRecognizer:self.revealViewController.panGestureRecognizer];
     // Do any additional setup after loading the view.
 }
-</source>
+{% endhighlight %}
 
 
 Реализовав данный функционал, я вновь отправил на проверку в Apple. Через полторы неделю получаю второй отказ. Что же не так в этот раз?! Читаю комментарии проверяющих приложение - “Apple и наши клиенты высоко ценят простой, изысканный, творческий, хорошо продуманный интерфейс. Они требуют больше усилий, но оно того стоит. Apple устанавливает высокую планку. Если пользовательский интерфейс недостаточно хорош, приложение может быть отклонено”. 
@@ -341,7 +342,7 @@ categories: iOS, objective-c, apple, development
 
 После этого добавил еще навигацию по Web View в контролере, где можно посмотреть новость полностью. То бишь - на страницу вперед, на страницу назад, остановить загрузку, обновить. И еще открывающийся UIActivityViewController:
 
-<source lang="objectivec">
+{% highlight objectivec %}
 - (IBAction)activityAction:(id)sender {
     
     
@@ -364,7 +365,7 @@ categories: iOS, objective-c, apple, development
         
         [self presentViewController:activityVC animated:YES completion:nil];
 }
-</source>
+{% endhighlight %}
 
 Доработал интерфейс, обновил так же иконку приложения и добавил splash view (это то, что появляется перед запуском приложения).
 Приложение было отправлено в третий раз. И в этот раз приложение наконец-то загорело счастливым мне статусом “Ready For Sale”. 
