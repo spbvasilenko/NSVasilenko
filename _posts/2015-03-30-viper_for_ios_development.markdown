@@ -30,7 +30,6 @@ VIPER применяется в iOS приложениях, построенны
 
 Ниже приведена схема, где показано как отдельные части архитектуры связаны между собой:
 <img src="http://habrastorage.org/getpro/habr/post_images/6ec/b19/1c3/6ecb191c3ea7a1136b1c9ace02a0e73f.png" alt="image"/>
-Теперь попробуем рассмотреть главные части архитектуры на реальном примере в тестовом проекте, который вы можете скачать по следующей <a href="https://github.com/spbvasilenko/ExampleVIPER">ссылке</a>:
 
 <b>Interactor</b>
 
