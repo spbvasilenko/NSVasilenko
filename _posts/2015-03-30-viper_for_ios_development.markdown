@@ -2,6 +2,7 @@
 layout: post
 title:  "Разработка iOS приложений с VIPER"
 date:   2015-03-30 19:47:00
+categories: ios
 ---
 
 <center><img src="http://habrastorage.org/getpro/habr/post_images/26f/487/66c/26f48766c665ffac9b10257b2c454bb4.jpg" alt="image"/></center>
