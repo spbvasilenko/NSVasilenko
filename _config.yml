@@ -5,5 +5,5 @@ description: > # this means to ignore newlines until "baseurl:"
   This blog contains every weekly articles about iOS Development
 baseurl: "" # the subpath of your site, e.g. /blog/
 url: "" # the base hostname & protocol for your site
-twitter_username: ivasilenko
+twitter_username: 
 github_username:  spbvasilenko
