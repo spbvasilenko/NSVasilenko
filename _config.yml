@@ -7,6 +7,3 @@ baseurl: "spbvasilenko.github.io" # the subpath of your site, e.g. /blog/
 url: "" # the base hostname & protocol for your site
 twitter_username: ivasilenko
 github_username:  spbvasilenko
-
-# Build settings
-markdown: kramdown
