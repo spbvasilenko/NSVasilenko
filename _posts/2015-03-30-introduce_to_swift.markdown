@@ -2,6 +2,7 @@
 layout: post
 title:  "Swift - нововведения"
 date:   2015-03-30 16:04:08
+categories: ios
 ---
 <img src="http://habrastorage.org/getpro/habr/post_images/9bc/404/1a9/9bc4041a9b7184a4c8cfd6521dde9fcb.png" alt="image"/>
 
