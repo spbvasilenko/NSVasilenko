@@ -4,11 +4,11 @@
     <title>NSVasilenko</title>
     <description>This blog contains every weekly articles about iOS Development
 </description>
-    <link>http://yourdomain.com/</link>
-    <atom:link href="http://yourdomain.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 30 Mar 2015 16:32:45 +0300</pubDate>
-    <lastBuildDate>Mon, 30 Mar 2015 16:32:45 +0300</lastBuildDate>
-    <generator>Jekyll v2.5.3</generator>
+    <link>/</link>
+    <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Mon, 30 Mar 2015 17:55:41 +0300</pubDate>
+    <lastBuildDate>Mon, 30 Mar 2015 17:55:41 +0300</lastBuildDate>
+    <generator>Jekyll v2.4.0</generator>
     
       <item>
         <title>Welcome to Jekyll!</title>
@@ -28,8 +28,8 @@
 
 </description>
         <pubDate>Mon, 30 Mar 2015 19:04:08 +0300</pubDate>
-        <link>http://yourdomain.com/jekyll/update/2015/03/30/welcome-to-jekyll.html</link>
-        <guid isPermaLink="true">http://yourdomain.com/jekyll/update/2015/03/30/welcome-to-jekyll.html</guid>
+        <link>/jekyll/update/2015/03/30/welcome-to-jekyll.html</link>
+        <guid isPermaLink="true">/jekyll/update/2015/03/30/welcome-to-jekyll.html</guid>
         
         
         <category>jekyll</category>
