@@ -6,7 +6,7 @@ permalink: /about/
 
 <center><font size="25" color="black" face="Arial">[developer writeCode];</font></center>
 
-<center><img src="https://www.dropbox.com/s/gf5qlxtaaxqbs5m/Flza6RbtiJ4.jpg" alt="image"/></center>
+<center><img src="https://pbs.twimg.com/profile_images/558728712498057216/1DepEUDx_bigger.jpeg" alt="image"/></center>
 
 Меня зовут Василенко Игорь.
 С начала 2014-го года, я занимаюсь разработкой под iOS. В этом блоге я постараюсь радовать Вас интересными обзорами, статьями и новостями, касающихся iOS разработки. 
