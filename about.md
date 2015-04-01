@@ -4,7 +4,7 @@ title: About
 permalink: /about/
 ---
 
-<center><img src="http://habrastorage.org/files/ce7/b81/0e5/ce7b810e58c64c669ad87db6049f35fd.png"/></center>
+<center><img src="http://habrastorage.org/files/92f/722/beb/92f722beba524fb3802e28adc679bd69.png"/></center>
 <p>  </p>
 <p>  </p>
 <p>  </p>
