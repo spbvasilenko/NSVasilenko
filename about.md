@@ -14,6 +14,7 @@ permalink: /about/
 
 Еще я иногда пишу статьи для habrahabr. Посмотреть список статей можно в моем <a href="http://habrahabr.ru/users/spbvasilenko14/">профиле</a>. Так же у меня есть профиль на <a href="https://www.linkedin.com/pub/igor-vasilenko/a3/450/593">LinkedIn</a>
 <p>  </p>
+E-mail: spb.vasilenko@gmail.com
 <p>  </p>
 <p>  </p>
 <p>  </p>
