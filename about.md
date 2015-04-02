@@ -3,8 +3,6 @@ layout: page
 title: About
 permalink: /about/
 ---
-
-<center><img src="http://habrastorage.org/files/92f/722/beb/92f722beba524fb3802e28adc679bd69.png"/></center>
 <p>  </p>
 <p>  </p>
 <p>  </p>
