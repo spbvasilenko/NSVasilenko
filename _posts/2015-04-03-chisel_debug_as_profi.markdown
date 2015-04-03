@@ -5,7 +5,7 @@ date:   2015-04-03 17:15:00
 categories: lldb
 ---
 
-<img src="//habrastorage.org/files/fc4/dbb/fc4/fc4dbbfc43ad4af1a040e257e5b80737.png"/>
+<img src="http://habrastorage.org/files/fc4/dbb/fc4/fc4dbbfc43ad4af1a040e257e5b80737.png"/>
 <p></p>
 <p></p>
 <p></p>
