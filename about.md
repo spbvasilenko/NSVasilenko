@@ -19,4 +19,3 @@ E-mail: spb.vasilenko@gmail.com
 <p>  </p>
 <p>  </p>
 <p>  </p>
-<center><font size="25" color="black" face="Arial">[developer writeCode];</font></center>
