@@ -72,7 +72,16 @@ categories: ios
 {% endhighlight %}
 
 Небольшая цитата одного из источников данного решения:
-"UIView key-frame animations require the use of 2 methods, the first of which is similar to the other block-based animation methods: animateKeyframesWithDuration:delay:options:animations:completion:. This takes floats for duration and delay, a bit-mask for options and blocks for animation and completion - all pretty standard in the world of UIView animations. The difference comes in the method we call inside the animation block: addKeyframeWithRelativeStartTime:relativeDuration:animations:. This method is used to add the fixed points within the animation sequence."
+
+"UIView key-frame animations require the use of 2 methods, the first of which is similar to the other block-based animation methods: 
+{% highlight objective-c %}
+animateKeyframesWithDuration:delay:options:animations:completion: 
+{% endhighlight %}
+This takes floats for duration and delay, a bit-mask for options and blocks for animation and completion - all pretty standard in the world of UIView animations. The difference comes in the method we call inside the animation block:
+{% highlight objective-c %}
+addKeyframeWithRelativeStartTime:relativeDuration:animations:
+{% endhighlight %}
+This method is used to add the fixed points within the animation sequence."
 
 На этом все! Возможно есть еще варианты решения данной задачи, но долгими поисками, я для себя нашел именно такое.
 Всем спасибо за внимание!
