@@ -52,20 +52,23 @@ categories: ios
 И наконец, сам метод, который выполняет анимации:
 
 {% highlight objective-c %}
-AnimationBlock animationsBlock = ^{
+- (void)doAnimations:(NSArray *)animations completion:(CompletionBlock)completion
+{
 //Перебираем массив с блоками анимаций. Используем метод addKeyframeWithRelativeStartTime, для того, чтобы анимации выполнялись в нужном нам порядке по времени.
+    AnimationBlock animationsBlock = ^{
         [animations enumerateObjectsUsingBlock:^(AnimationBlock animation, NSUInteger index, BOOL *stop) {
             [UIView addKeyframeWithRelativeStartTime:index/(CGFloat)animations.count
                                     relativeDuration:1/(CGFloat)animations.count
                                           animations:animation];
         }];
     };
-//В конце передаем блок с нашими анимациями в метод animateKeyframesWithDuration, где duration мы рассчитываем как длительность анимации умноженное на количество переданных анимаций. И в итоге получаем конечный callback блок.
+//В конце передаем блок с нашими анимациями в метод animateKeyframesWithDuration, где duration мы рассчитываем как длительность анимации умноженное на количество переданных анимаций. И в итоге получаем конечный callback блок.    
     [UIView animateKeyframesWithDuration:self.duration * animations.count
                                    delay:self.delay
                                  options:UIViewKeyframeAnimationOptionCalculationModeLinear | UIViewAnimationOptionCurveLinear
                               animations:animationsBlock
                               completion:completion];
+}
 {% endhighlight %}
 
 На этом все! Возможно есть еще варианты решения данной задачи, но долгими поисками, я для себя нашел именно такое.
