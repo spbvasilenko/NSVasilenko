@@ -43,7 +43,7 @@ typedef enum : long {
 {% endhighlight %}
 
 Далее приведу основные функции для RACSignal, которые могут использоваться нами для управления многопоточностью:
-Данный метод RACSignal, говорит о том, что блоки получения данных subscribeNext/doNext/subscribeError/etc. будут выполняться в том RACSCheduler, который мы вернем.
+Данный метод RACSignal, говорит о том, что блоки получения новых значений в subscribeNext/doNext/subscribeError/etc. будут выполняться в том RACSCheduler, который мы вернем.
 {% highlight objective-c %}
 - (RACSignal *)deliverOn:(RACScheduler *)scheduler
 {% endhighlight %}
