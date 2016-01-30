@@ -110,4 +110,6 @@ RACSignal *signal = [RACSignal createSignal:^RACDisposable *(id <RACSubscriber> 
     }];
 {% endhighlight %}
 
-На этом все :) Спасибо большое за внимание!
+На этом все :) Спасибо большое за внимание! И кстати, отличная новость: 
+Состоялся долгожданный релиз RAC4!
+https://github.com/ReactiveCocoa/ReactiveCocoa/releases/tag/v4.0.0
