@@ -1,6 +1,6 @@
-name: Igor Vasilenko
+name: Vasilenko Igor
 description: iOS developer @YOTA
-meta_description: "Igor Vasilenko. iOS developer @YOTA"
+meta_description: "Vasilenko Igor. iOS developer @YOTA"
 
 markdown: kramdown
 highlighter: pygments
@@ -12,4 +12,4 @@ gems: [jekyll-paginate]
 
 # Details for the RSS feed generator
 url:            'vasilenkoigor.github.io'
-author:         'Igor Vasilenko'
+author:         'Vasilenko Igor'
