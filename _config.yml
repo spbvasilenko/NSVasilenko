@@ -7,9 +7,9 @@ highlighter: pygments
 logo: false
 paginate: 15
 baseurl: /
-domain_name: 'ivasilenko.github.io'
+domain_name: 'vasilenkoigor.github.io'
 gems: [jekyll-paginate]
 
 # Details for the RSS feed generator
-url:            'ivasilenko.github.io'
+url:            'vasilenkoigor.github.io'
 author:         'Igor Vasilenko'
