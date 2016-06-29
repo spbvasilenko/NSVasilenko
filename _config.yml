@@ -1,9 +1,15 @@
-# Site settings
-title: iOS Dev Blog
-email: spb.vasilenko@gmail.com
-description: > # this means to ignore newlines until "baseurl:"
-  This is blog contains every weekly articles about iOS development. Enjoy!
-baseurl: "" # the subpath of your site, e.g. /blog/
-url: "" # the base hostname & protocol for your site
-twitter_username: 
-github_username:  spbvasilenko
+name: Igor Vasilenko
+description: This is blog contains articles about iOS development and my experience
+meta_description: "This is blog contains articles about iOS development and my experience"
+
+markdown: kramdown
+highlighter: pygments
+logo: false
+paginate: 15
+baseurl: /
+domain_name: 'spbvasilenko.github.io'
+gems: [jekyll-paginate]
+
+# Details for the RSS feed generator
+url:            'spbvasilenko.github.io'
+author:         'Igor Vasilenko'
