@@ -1,15 +1,15 @@
-name: Vasilenko Igor
+name: Igor Vasilenko
 description: iOS developer @YOTA
-meta_description: "Vasilenko Igor. iOS developer @YOTA"
+meta_description: "Igor Vasilenko. iOS developer @YOTA"
 
 markdown: kramdown
 highlighter: pygments
 logo: false
 paginate: 15
 baseurl: /
-domain_name: 'igor.vasilenko.me'
+domain_name: 'igorvasilenko.me'
 gems: [jekyll-paginate]
 
 # Details for the RSS feed generator
-url:            'igor.vasilenko.me'
-author:         'Vasilenko Igor'
+url:            'igorvasilenko.me'
+author:         'Igor Vasilenko'
