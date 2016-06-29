@@ -3,4 +3,6 @@ layout: page
 title: About me 
 ---
 
-This is a static page. It could be an 'about page' if you'd like.
+Hi there!
+
+My name is Igor and I'm iOS developer from Saint-Peterburg, Russia. Nice to meet you!
