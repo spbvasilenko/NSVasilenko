@@ -11,5 +11,5 @@ domain_name: 'igorvasilenko.me'
 gems: [jekyll-paginate]
 
 # Details for the RSS feed generator
-url:            'igorvasilenko.me'
+url:            'http://igorvasilenko.me/'
 author:         'Igor Vasilenko'
