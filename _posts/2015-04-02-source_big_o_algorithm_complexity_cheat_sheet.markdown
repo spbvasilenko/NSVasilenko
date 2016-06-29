@@ -5,10 +5,6 @@ date:   2015-04-02 16:01:00
 categories: algorithms, data structures
 ---
 
-<center><img src="http://habrastorage.org/files/e2f/839/f79/e2f839f7954d4f59bee2fd4ea2157bf2.png"/></center>
-<p></p>
-<p></p>
-<p></p>
 Hey, guys! Все, кто ходил на собеседования на позицию разработчика, не важно какую именно, будь то iOS или Android 
 и так далее, хотя бы раз слышали вопросы про структуры данных, асимптотику, о-большое.
 
