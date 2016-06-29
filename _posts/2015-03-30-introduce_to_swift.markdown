@@ -4,7 +4,6 @@ title:  "Swift - нововведения"
 date:   2015-03-30 16:04:08
 categories: ios
 ---
-<img src="http://habrastorage.org/getpro/habr/post_images/9bc/404/1a9/9bc4041a9b7184a4c8cfd6521dde9fcb.png" alt="image"/>
 
 Я не сомневаюсь, что многие из нас вчера смотрели презентацию WWDC 2014 от Apple. Были представлены новая операционная система OS X Yosemite, а так же iOS 8. Но главное, чем наверное взбудоражило Apple программистов во всем мире, так это новым языком - Swift!
 
