@@ -18,3 +18,9 @@ When I felt that I want to move further I got into e-Legion. There I was working
 Since July 2015 I'm working as a iOS developer at YOTA and develop our iOS client application. Since June 2016 I'm become official member of Typhoon open-source framework. 
 
 If you want invite me to your conference or meetup, I'll be happy to accept your invite.
+
+You can reach me here: 
+
+<b>Email</b> <a href="spb.vasilenko@gmail.com">spb.vasilenko@gmail.com</a>
+<b>Twitter</b> <a href="https://twitter.com/i_vasilenko">@i_vasilenko</a>
+<b>GitHub</b> <a href="https://github.com/vasilenkoigor">vasilenkoigor</a>
