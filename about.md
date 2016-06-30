@@ -22,5 +22,7 @@ If you want invite me to your conference or meetup, I'll be happy to accept your
 You can reach me here: 
 
 <b>Email</b> <a href="spb.vasilenko@gmail.com">spb.vasilenko@gmail.com</a>
+
 <b>Twitter</b> <a href="https://twitter.com/i_vasilenko">@i_vasilenko</a>
+
 <b>GitHub</b> <a href="https://github.com/vasilenkoigor">vasilenkoigor</a>
