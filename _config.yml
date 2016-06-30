@@ -9,6 +9,7 @@ paginate: 15
 baseurl: /
 domain_name: 'igorvasilenko.me'
 gems: [jekyll-paginate]
+permalink: pretty
 
 # Details for the RSS feed generator
 url:            'http://igorvasilenko.me/'
