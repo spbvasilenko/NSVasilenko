@@ -9,7 +9,6 @@ baseurl: /
 domain_name: 'igorvasilenko.me'
 gems: [jekyll-paginate]
 permalink: /:title
-meta-description: /:title
 
 # Details for the RSS feed generator
 url:            'http://igorvasilenko.me/'
