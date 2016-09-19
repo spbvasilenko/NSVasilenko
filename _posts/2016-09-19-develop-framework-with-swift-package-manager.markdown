@@ -57,7 +57,7 @@ After the command finishes, the built products will be available in the .build d
 .build/debug/Framework
 {% endhighlight %}
 
-<b>First step</b>
+<b>Second step</b>
 
 In our folder of Framework run command for generate xcproj with Package via command:
 
