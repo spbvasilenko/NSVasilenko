@@ -3,7 +3,7 @@ description: iOS developer @YOTA
 
 markdown: kramdown
 highlighter: pygments
-logo: false
+logo: true
 paginate: 15
 baseurl: /
 domain_name: 'igorvasilenko.me'
