@@ -13,7 +13,7 @@ Many existing Swift packages are available, but currently no central listings se
 
 <b>The problem</b>
 
-It's really painfull build our Package of framework in terminal via {% highlight swift %}swift build{% endhighlight %} without autocompletion and all features of IDE. 
+It's really painfull build our Package of framework in terminal via ```swift build```without autocompletion and all features of IDE. 
 
 It's easy to fix in two steps:
 
