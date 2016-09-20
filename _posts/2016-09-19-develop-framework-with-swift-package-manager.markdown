@@ -13,7 +13,7 @@ Many existing Swift packages are available, but currently no central listings se
 
 <b>The problem</b>
 
-It's really painfull build our Package of framework in terminal via ```swift build```without autocompletion and all features of IDE. 
+It's really painfull build our Package of framework in terminal via ```swift build``` without autocompletion and all features of IDE. 
 
 It's easy to fix in two steps:
 
@@ -23,9 +23,9 @@ The first step to using Swift is to <a href="https://swift.org/download">downloa
 
 The default location for the downloadable toolchain on macOS is /Library/Developer/Toolchains. You can make the tools available for use from the terminal with the following command:
 
-{% highlight swift %}
+```shell
 export PATH=/Library/Developer/Toolchains/swift-latest.xctoolchain/usr/bin:"${PATH}"
-{% endhighlight %} 
+```
 
 <b>First step</b>
 
@@ -35,9 +35,9 @@ Imagine we have already folder of our framework with some class, like on screens
 
 Firstly, we should init Package for your framework with command in Terminal
 
-{% highlight swift %}
+```shell
 swift package init --type executable
-{% endhighlight %}
+```
 
 After installing Package for our Framework we have a structure as on screenshot:
 
@@ -47,23 +47,23 @@ Let's move our some class to Sources folder
 
 So, now we have executable Package of our framework, also we can build it with command: 
 
-{% highlight swift %}
+```shell
 swift build
-{% endhighlight %}
+```
 
 After the command finishes, the built products will be available in the .build directory. Run the Framework program with the following command:
 
-{% highlight swift %}
+```shell
 .build/debug/Framework
-{% endhighlight %}
+```
 
 <b>Second step</b>
 
 In our folder of Framework run command for generate xcproj with Package via command:
 
-{% highlight swift %}
+```shell
 swift package generate-xcodeproj
-{% endhighlight %}
+```
 
 <img src="https://habrastorage.org/files/89e/aa6/1db/89eaa61dbac04288b1ddc750ef75658e.png"/>
 
