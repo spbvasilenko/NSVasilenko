@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Swift Array search performance"
-date:   2016-09-01 00:00:00
+date:   2016-09-09 00:00:00
 categories: swift ios performance algorithms
 ---
 
@@ -9,7 +9,7 @@ In this week , I'm interested in how to have fun fast search algorithms in the a
 
 <b>Story</b>
 
-Right now, for Array implemented {% highlight swift %}array.contains(element){% endhighlight %} and {% highlight swift %}array.indexOf(element){% endhighlight %} for searching in an array. Both of these methods iterate over all elements in the array, starting at index 0, until they find a match. In Big O notation, the methods’ performance characteristic is O(n). This is usually not a problem for small arrays with only a few dozen elements, but we have array of 100000000 elements? We want to look for a faster search algorithm.
+Right now, for Array implemented ```array.contains(element)``` and ```array.indexOf(element)``` for searching in an array. Both of these methods iterate over all elements in the array, starting at index 0, until they find a match. In Big O notation, the methods’ performance characteristic is O(n). This is usually not a problem for small arrays with only a few dozen elements, but we have array of 100000000 elements? We want to look for a faster search algorithm.
 
 In the Swift, Apple doesn't implemented binary search for arrays yet! It was a big suprise for me!
 
@@ -21,7 +21,7 @@ Today, I make example project for measure performance beetween function indexOf 
 
 So, finding the last element in sorted array with 100000000 elements takes:
 
-- Standard indexOf() search - 3 sec average
+- Standard ```indexOf()``` search - 3 sec average
 
 - Binary search - 1.5 sec average
 
