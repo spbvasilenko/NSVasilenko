@@ -74,3 +74,9 @@ Open generated project and setup main scheme for executable type:
 After all step we now can easily develop framework in Xcode with all features of IDE like debugging, etc.
 
 <img src="https://habrastorage.org/files/ebb/afd/d59/ebbafdd596fc4a118765e9619a2b6e6d.png"/>
+
+<b>Good reads</b>
+
+<a href="https://swift.org/package-manager/">Swift Package Manager<a/>
+
+<a href="https://medium.com/swift-programming/swift-package-manger-version-syntax-f3a5c053a613#.mpk9l2mk8">Swift Package Manager version Syntax<a/>
