@@ -3,7 +3,7 @@
 # Site wide configuration
 ####################################
 #
-title: Vasilenko.Tech
+title: Vasilenko.Tech Blog
 email: devnull.igor@gmail.com
 description: iOS Blog
 url: "https://vasilenko.tech"
@@ -36,8 +36,8 @@ kramdown:
 owner:
   name: Igor Vasilenko
   avatar: leonids-logo.png
-  job: "iOS Developer at Tinkoff Bank"
-  bio: "Interested in clean software design"
+  job: "iOS Developer @ Tinkoff Bank"
+  bio: "Interested in clean software design and open-source projects"
   email: devnull.igor@gmail.com
   disqus-shortname:
   twitter: i_vasilenko
