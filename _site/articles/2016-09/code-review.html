@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Code-review</title>
+  <meta name="description" content="В данном посте хотелось бы поговорить о прекрасном слове Code-review и рассказать как он построен в команде YOTA.">
+
+  <!-- CSS files -->
+  <link rel="stylesheet" href="http://localhost:4000/css/font-awesome.min.css">
+  <link rel="stylesheet" href="http://localhost:4000/css/main.css">
+
+  <link rel="canonical" href="http://localhost:4000/articles/2016-09/code-review">
+  <link rel="alternate" type="application/rss+xml" title="Vasilenko.Tech" href="http://localhost:4000/feed.xml" />
+
+  <!-- Icons -->
+  <!-- 16x16 -->
+  <link rel="shortcut icon" href="http://localhost:4000/favicon.ico">
+  <!-- 32x32 -->
+  <link rel="shortcut icon" href="http://localhost:4000/favicon.png">
+</head>
+
+
+<body>
+  <div class="row">
+    <div class="col s12 m3">
+      <div class="table cover">
+        
+
+<div class="cover-card table-cell table-middle">
+  
+  <img src="http://localhost:4000/img/leonids-logo.png" alt="" class="avatar">
+  
+  <a href="http://localhost:4000/" class="author_name">Igor Vasilenko</a>
+  <span class="author_job">iOS Developer at Tinkoff Bank</span>
+  <span class="author_bio mbm">Interested in clean software design</span>
+  <nav class="nav">
+    <ul class="nav-list">
+      <li class="nav-item">
+        <a href="http://localhost:4000/">home</a>
+      </li>
+       
+      <li class="nav-item">
+        <a href="http://localhost:4000/archive/">Archive</a>
+      </li>
+          
+      <li class="nav-item">
+        <a href="http://localhost:4000/categories/">Categories</a>
+      </li>
+           
+    </ul>
+  </nav>
+  <script type="text/javascript">
+  // based on http://stackoverflow.com/a/10300743/280842
+  function gen_mail_to_link(hs, subject) {
+    var lhs,rhs;
+    var p = hs.split('@');
+    lhs = p[0];
+    rhs = p[1];
+    document.write("<a class=\"social-link-item\" target=\"_blank\" href=\"mailto");
+    document.write(":" + lhs + "@");
+    document.write(rhs + "?subject=" + subject + "\"><i class=\"fa fa-fw fa-envelope\"></i><\/a>");
+  }
+</script>
+<div class="social-links">
+  <ul>
+    
+      <li>
+      <script>gen_mail_to_link('devnull.igor@gmail.com', 'Hello from website');</script>
+      </li>
+    
+    <li><a href="http://twitter.com/i_vasilenko" class="social-link-item" target="_blank"><i class="fa fa-fw fa-twitter"></i></a></li>
+    
+    
+    <li><a href="http://linkedin.com/in/ivasilenko" class="social-link-item" target="_blank"><i class="fa fa-fw fa-linkedin"></i></a></li>
+    <li><a href="skype:love-zenit.vasilenko" class="social-link-item" target="_blank"><i class="fa fa-fw fa-skype"></i></a></li>
+    
+    <li><a href="http://instagram.com/ivasilenko" class="social-link-item" target="_blank"><i class="fa fa-fw fa-instagram"></i></a></li>
+    
+    <li><a href="http://github.com/vasilenkoigor" class="social-link-item" target="_blank"><i class="fa fa-fw fa-github"></i></a></li>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </ul>
+</div>
+
+</div>
+
+      </div>
+    </div>
+    <div class="col s12 m9">
+      <div class="post-listing">
+        <a class="btn" href= "http://localhost:4000/" >
+  Home
+</a>
+
+
+
+<div id="post">
+  <header class="post-header">
+    <h1 title="Code-review">Code-review</h1>
+    <span class="post-meta">
+      <span class="post-date">
+        1 SEP 2016
+      </span>
+      •
+      <span class="read-time" title="Estimated read time">
+  
+  
+    2 mins read
+  
+</span>
+
+    </span>
+
+  </header>
+
+  <article class="post-content">
+    <p>В данном посте хотелось бы поговорить о прекрасном слове “Code-review” и рассказать как он построен в команде YOTA.</p>
+
+<p><b>Немного лирики</b>
+<img src="https://habrastorage.org/files/8ee/4be/9c7/8ee4be9c7cd544d8a34890ba76cb1344.png" alt="enter image description here" /></p>
+
+<p>В моем понимании, code-review - это прежде всего инструмент. Инструмент,  который нам помогает следить за качеством кода. Можно долго говорить о том, что такое “качество кода” и каким оно должно быть в идеальном мире,  но поговорим об этом в следующий раз. Могу посоветовать прочесть замечательную книгу “Clean Code” написанную дядюшкой Бобом. По моему мнению, code-review должен существовать в любом проекте, который пишут несколько людей и важно понимать зачем он нам нужен, понимать при этом - правильно. Я встречал достаточно людей, которые пренебрежительно относятся к ревью кода, а иногда и совсем неадекватно, потому что во время ревью, ревьювер задевает его чувства и словно придирается к каждой строчке.</p>
+
+<p><b>На что следует обращать внимание</b></p>
+
+<p>При проведении code-review,  по моему собственному опыту, я прежде всего обращаю внимание на следующие вещи:</p>
+
+<ul>
+  <li>Code-style, который прописан в нашей команде</li>
+  <li>Вразумительное наименование методов и переменных</li>
+  <li>Так же, у меня есть небольшой принцип по количеству строк в методе - размер метода не должен быть больше 50 строк кода</li>
+  <li>Следование SOLID принципам (ну как минимум - SRP)</li>
+  <li>Консистентность логики</li>
+  <li>Многопоточность (дэдлоки, рейс кондишены, фриз main thread’а)</li>
+  <li>Архитектурные особенности проекта (в нашем случае - MVVM)</li>
+  <li>Retain cycle’s и управление памятью</li>
+</ul>
+
+<p><b>Как построен процесс code-review в YOTA</b></p>
+
+<ul>
+  <li>Во первых, наша команда следует следующему Git-flow принципу:
+    <ul>
+      <li>Для каждого релиза существует своя ветка, к примеру dev-3.0</li>
+      <li>При разработке новой фичи, разработчик бранчуется от ветки текущего релиза со следующим  именованием - “3.0/feature/(JIRA-Ticket)-name-of-task” - данное именование ветки нашей новой фичи помогает нам видеть созданные папочки в SourceTree по релизам, что упрощает навигацию.</li>
+      <li>Примерно два-три раза в день делается rebase ветки с веткой релиза</li>
+      <li>По завершению разработки фичи,  создается code-review в UpSource на ревьювера</li>
+    </ul>
+  </li>
+  <li>Ревьюверу приходит нотификация о том, что на него создано code-review:
+    <ul>
+      <li>Если в ходе ревью кода возникают замечания, ревьювер в праве нажать кнопочку с пальцем вниз (“все херня, Вася”) и пинает разработчика фичи.</li>
+      <li>После того, как разработчик исправит замечания, ревизия добавляется к существующему  code-review и ревьюверу снова приходит об этом нотификация.</li>
+      <li>В случае успешного прохождения code-review, ревьювер жмет кнопочку палец вверх (“Accept”),  об этом информируется разработчик фичи, и это значит, что можно делать merge в ветку релиза. Происходит merge и закрывается сразу же созданное ревью в Upsource.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>Собственно, это весь процесс.</p>
+
+<p>Если в команде находится человек небольшого профессионального опыта или только что появился на проекте, то ревью создается на каждый коммит.</p>
+
+<p><b>В конце концов</b></p>
+
+<p>В конце концов,  при данном процессе и взаимопонимании,  в результате мы получаем на выходе качественный код,  на который не так страшно и стыдно смотреть.</p>
+
+  </article>
+</div>
+
+<div class="share-buttons">
+  <h6>Share on: </h6>
+  <ul>
+    <li>
+      <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/articles/2016-09/code-review" class="twitter btn" title="Share on Twitter"><i class="fa fa-twitter"></i><span> Twitter</span></a>
+    </li>
+    <li>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/articles/2016-09/code-review" class="facebook btn" title="Share on Facebook"><i class="fa fa-facebook"></i><span> Facebook</span></a>
+    </li>
+    <li>
+      <a href="https://plus.google.com/share?url=http://localhost:4000/articles/2016-09/code-review" class="google-plus btn" title="Share on Google Plus"><i class="fa fa-google-plus"></i><span> Google+</span></a>
+    </li>
+    <li>
+      <a href="https://news.ycombinator.com/submitlink?u=http://localhost:4000/articles/2016-09/code-review" class="hacker-news btn" title="Share on Hacker News"><i class="fa fa-hacker-news"></i><span> Hacker News</span></a>
+    </li>
+    <li>
+      <a href="https://www.reddit.com/submit?url=http://localhost:4000/articles/2016-09/code-review" class="reddit btn" title="Share on Reddit"><i class="fa fa-reddit"></i><span> Reddit</span></a>
+    </li>
+  </ul>
+</div><!-- end share-buttons -->
+
+
+
+        <footer>
+  &copy; 2017 Igor Vasilenko.
+</footer>
+
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="http://localhost:4000/js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="http://localhost:4000/js/main.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Сетевой слой во главе с тандемом AFNetworking & Mantle</title>
+  <meta name="description" content="Недавно, в обучающих целях, в моей компании мне дали задание попробовать написать максимально гибкий сетевой слой для API Инстаграмма. И теперь я хотел бы по...">
+
+  <!-- CSS files -->
+  <link rel="stylesheet" href="http://localhost:4000/css/font-awesome.min.css">
+  <link rel="stylesheet" href="http://localhost:4000/css/main.css">
+
+  <link rel="canonical" href="http://localhost:4000/articles/2015-06/network-flow-with-afnetworking-and-mantle">
+  <link rel="alternate" type="application/rss+xml" title="Vasilenko.Tech" href="http://localhost:4000/feed.xml" />
+
+  <!-- Icons -->
+  <!-- 16x16 -->
+  <link rel="shortcut icon" href="http://localhost:4000/favicon.ico">
+  <!-- 32x32 -->
+  <link rel="shortcut icon" href="http://localhost:4000/favicon.png">
+</head>
+
+
+<body>
+  <div class="row">
+    <div class="col s12 m3">
+      <div class="table cover">
+        
+
+<div class="cover-card table-cell table-middle">
+  
+  <img src="http://localhost:4000/img/leonids-logo.png" alt="" class="avatar">
+  
+  <a href="http://localhost:4000/" class="author_name">Igor Vasilenko</a>
+  <span class="author_job">iOS Developer at Tinkoff Bank</span>
+  <span class="author_bio mbm">Interested in clean software design</span>
+  <nav class="nav">
+    <ul class="nav-list">
+      <li class="nav-item">
+        <a href="http://localhost:4000/">home</a>
+      </li>
+       
+      <li class="nav-item">
+        <a href="http://localhost:4000/archive/">Archive</a>
+      </li>
+          
+      <li class="nav-item">
+        <a href="http://localhost:4000/categories/">Categories</a>
+      </li>
+           
+    </ul>
+  </nav>
+  <script type="text/javascript">
+  // based on http://stackoverflow.com/a/10300743/280842
+  function gen_mail_to_link(hs, subject) {
+    var lhs,rhs;
+    var p = hs.split('@');
+    lhs = p[0];
+    rhs = p[1];
+    document.write("<a class=\"social-link-item\" target=\"_blank\" href=\"mailto");
+    document.write(":" + lhs + "@");
+    document.write(rhs + "?subject=" + subject + "\"><i class=\"fa fa-fw fa-envelope\"></i><\/a>");
+  }
+</script>
+<div class="social-links">
+  <ul>
+    
+      <li>
+      <script>gen_mail_to_link('devnull.igor@gmail.com', 'Hello from website');</script>
+      </li>
+    
+    <li><a href="http://twitter.com/i_vasilenko" class="social-link-item" target="_blank"><i class="fa fa-fw fa-twitter"></i></a></li>
+    
+    
+    <li><a href="http://linkedin.com/in/ivasilenko" class="social-link-item" target="_blank"><i class="fa fa-fw fa-linkedin"></i></a></li>
+    <li><a href="skype:love-zenit.vasilenko" class="social-link-item" target="_blank"><i class="fa fa-fw fa-skype"></i></a></li>
+    
+    <li><a href="http://instagram.com/ivasilenko" class="social-link-item" target="_blank"><i class="fa fa-fw fa-instagram"></i></a></li>
+    
+    <li><a href="http://github.com/vasilenkoigor" class="social-link-item" target="_blank"><i class="fa fa-fw fa-github"></i></a></li>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </ul>
+</div>
+
+</div>
+
+      </div>
+    </div>
+    <div class="col s12 m9">
+      <div class="post-listing">
+        <a class="btn" href= "http://localhost:4000/" >
+  Home
+</a>
+
+
+
+<div id="post">
+  <header class="post-header">
+    <h1 title="Сетевой слой во главе с тандемом AFNetworking & Mantle">Сетевой слой во главе с тандемом AFNetworking & Mantle</h1>
+    <span class="post-meta">
+      <span class="post-date">
+        13 JUN 2015
+      </span>
+      •
+      <span class="read-time" title="Estimated read time">
+  
+  
+    6 mins read
+  
+</span>
+
+    </span>
+
+  </header>
+
+  <article class="post-content">
+    <p>Всем привет! 
+Недавно, в обучающих целях, в моей компании мне дали задание попробовать написать максимально гибкий сетевой слой для API Инстаграмма. И теперь я хотел бы поделиться с Вами своим результатом, проделанным в несколько дней. Вероятно, глазами другими, написанный вариант будет выглядеть не таким уж хорошим и гибким, но мне понравилось то, до чего я дошел в конечном результате.</p>
+
+<p>Начнем с того, что я сделал выбор в пользу замечательных AFNetworking и Mantle. Почему? Ответ очевиден: AFNetworking умеет правильно составлять NSURLRequest’ы с нужными нами параметрами и хэдэрами, а так же парсить ответ от сервера в правильный JSON. Mantle же тоже делает свое дело, парсит JSON в нужную нам модель класса. Это действительно волшебный тандем “AFNetworking &amp; Mantle”, который глупо не использовать.</p>
+
+<p>Какие главные цели когда мы пишем свой сетевой слой? Я хочу чтобы мой сетевой слой был эластичным, простым, с высокой сочетаемостью и гибким.</p>
+
+<p>Поехали!</p>
+
+<p>Структура слоя получилась следующая:</p>
+
+<ol>
+  <li>VASResourceManager - менеджер, который отдает нам конечный ответ относительно конкретного запроса с нашими параметрами и методом, с ним будут работать непосредственно вью модели.</li>
+  <li>VASNetworkRequestManager - умеет посылать запросы, который в качестве аргументов принимает наши параметры.</li>
+</ol>
+
+<p>Помощниками Network Request Manager’a являются классы VASOperationManager, родителем которого является AFRequestOperationManager и VASJSONResponseSerializer, тоже родителем которого является AFJSONResponseSerializer.</p>
+
+<p>Вероятно, было бы удобно, получать ответ от реквестов сразу в виде модели какого-либо класса? Мы вызываем метод, передаем ему аргументы с параметрами запроса, а так же передаем класс модели, в виде которой мы хотели бы получить уже готовый ответ.</p>
+
+<p>В этом нам поможет AFJSONResponseSerializer, который собственно парсит ответ от сервера в JSON. Все, что нам потребуется, так это засабкласиться от данного класса, написать свой метод для инициализации, где в качестве аргумента мы укажем класс нашей модели, и дописать свою логику в следующем методе:</p>
+
+<figure class="highlight"><pre><code class="language-objectivec" data-lang="objectivec">- (id)responseObjectForResponse:(NSURLResponse *)response data:(NSData *)data error:(NSError *__autoreleasing *)error</code></pre></figure>
+
+<p>Инициализатор класса будет следующим:</p>
+
+<figure class="highlight"><pre><code class="language-objectivec" data-lang="objectivec">#import "AFURLResponseSerialization.h"
+
+@interface VASJSONResponseSerializer : AFJSONResponseSerializer
+
+- (instancetype)initWithResultClass:(Class)resultClass;
+
+@end</code></pre></figure>
+
+<p>Теперь перейдем в файл имплементации и допишем нашу логику для парсинга JSON в готовую модель класса с помощью Mantle:</p>
+
+<figure class="highlight"><pre><code class="language-objectivec" data-lang="objectivec">#import "VASJSONResponseSerializer.h"
+
+@interface VASJSONResponseSerializer()
+
+@property (nonatomic, strong) Class resultClass;
+@property (nonatomic, strong) id resultResponseObject;
+
+@end
+
+@implementation VASJSONResponseSerializer
+
+- (instancetype)initWithResultClass:(Class)resultClass
+{
+    if (self = [super init]) {
+        self.resultClass = resultClass;
+        self.acceptableContentTypes = [NSSet setWithObjects:@"application/json", nil];
+    }
+    return self;
+}
+
+- (id)responseObjectForResponse:(NSURLResponse *)response data:(NSData *)data error:(NSError *__autoreleasing *)error
+{
+// Используем super метод класса, который возвращает нам готовый JSON
+    id responseObject = [super responseObjectForResponse:response data:data error:error];
+    
+// Если мы передали класс модели, то парсим JSON в модель, иначе возвращаем обычный чистый JSON
+    if (self.resultClass)
+    {
+        if ([responseObject[@"data"] isKindOfClass:[NSArray class]])
+        {
+            self.resultResponseObject = [MTLJSONAdapter modelsOfClass:self.resultClass
+                                                        fromJSONArray:responseObject[@"data"]
+                                                                error:NULL];
+        }
+        else if ([responseObject[@"data"] isKindOfClass:[NSDictionary class]])
+        {
+            self.resultResponseObject = [MTLJSONAdapter modelOfClass:self.resultClass
+                                                  fromJSONDictionary:responseObject[@"data"]
+                                                               error:NULL];
+        }
+    }
+    else
+    {
+        return responseObject;
+    }
+    
+    return self.resultResponseObject;
+}
+
+@end</code></pre></figure>
+
+<p>На этом завершается работа с данным классом.</p>
+
+<p>Перейдем к следующему классу - VASOperationManager. Данный класс менеджер будет уметь возвращать AFHTTPRequestOperation в методе, в который мы передадим параметры для запроса к серверу. Так же нужно добавить свой инициализатор.</p>
+
+<p>Код заголовочного файла:</p>
+
+<figure class="highlight"><pre><code class="language-objectivec" data-lang="objectivec">#import "AFHTTPRequestOperationManager.h"
+
+typedef void(^OperationManagerCompletionBlockWithSuccess)(AFHTTPRequestOperation *operation, id responseObject);
+typedef void(^OperationManagerCompletionBlockWithFailure)(AFHTTPRequestOperation *operation, NSError *error);
+
+@interface VASOperationManager : AFHTTPRequestOperationManager
+
+#pragma mark - Initialize
+
+- (instancetype)initWithBaseURL:(NSURL *)url
+               configurationAPI:(id)configuration;
+
+#pragma mark - Operations
+#pragma mark GET
+
+- (AFHTTPRequestOperation *)operationWithGET:(NSString *)method
+                                  parameters:(id)parameters
+                                 resultClass:(Class)resultClass
+                                     success:(OperationManagerCompletionBlockWithSuccess)success
+                                     failure:(OperationManagerCompletionBlockWithFailure)failure;
+
+@end</code></pre></figure>
+
+<p>Файл имплементации:</p>
+
+<figure class="highlight"><pre><code class="language-objectivec" data-lang="objectivec">#import "VASOperationManager.h"
+
+#import "VASJSONResponseSerializer.h"
+
+@interface VASOperationManager()
+
+@property (nonatomic, strong) NSMutableDictionary *parameters;
+
+@end
+
+@implementation VASOperationManager
+
+#pragma mark - Initialize
+
+- (instancetype)initWithBaseURL:(NSURL *)url
+               configurationAPI:(id)configuration
+{
+    if (self = [super initWithBaseURL:url]) {
+        _parameters = [NSMutableDictionary dictionaryWithDictionary:configuration];
+    }
+    return self;
+}
+
+#pragma mark - Operations
+
+- (AFHTTPRequestOperation *)operationWithGET:(NSString *)method
+                                  parameters:(id)parameters
+                                 resultClass:(Class)resultClass
+                                     success:(OperationManagerCompletionBlockWithSuccess)success
+                                     failure:(OperationManagerCompletionBlockWithFailure)failure
+{
+// Создаем реквест с методом и параметрами
+    NSURLRequest *urlRequest = [self requestWithGET:method parameters:parameters];
+
+// Затем создаем операцию c нашим реквестом
+    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:urlRequest
+                                                                      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                                          if (responseObject) {
+                                                                              if (success)
+                                                                                  success(operation, responseObject);
+                                                                          }
+                                                                      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                                          if (error) {
+                                                                              if (failure)
+                                                                                  failure(operation, error);
+                                                                          }
+                                                                      }];
+// У класса AFRequestOperation имеется свойство с responseSerializer. Устанавливая наш сериализатор, операция в данном случае будет использовать наш сабкласс, и в итоге мы будем получать ответ в нужном нам виде. 
+    VASJSONResponseSerializer *responseSerializer = [[VASJSONResponseSerializer alloc] initWithResultClass:resultClass];
+    operation.responseSerializer = responseSerializer;
+    
+    return operation;
+}
+
+#pragma mark - Request's
+
+- (NSURLRequest *)requestWithGET:(NSString *)method parameters:(id)parameters
+{
+    [self.parameters addEntriesFromDictionary:parameters];
+    NSString *urlString = [[NSURL URLWithString:method? : [NSString string] relativeToURL:self.baseURL] absoluteString];
+    
+// То, зачем нужно использовать AFNetworking. Это способность создать правильный реквест с методом, параметрами и возможно еще дополнительными хэдэрами. 
+    NSURLRequest *urlRequest = [[AFHTTPRequestSerializer serializer] requestWithMethod:@"GET"
+                                                                             URLString:urlString
+                                                                            parameters:self.parameters
+                                                                                 error:NULL];
+    return urlRequest;
+}</code></pre></figure>
+
+<p>На этом моменте мы уже можем делать запросы к серверу, используя данный менеджер.</p>
+
+<p>Перейдем к реализации VASNetworkRequestManager:</p>
+
+<p>Он будет иметь почти идентичный заголовочный файл, как и в случае с VASOperationManager:</p>
+
+<figure class="highlight"><pre><code class="language-objectivec" data-lang="objectivec">#import &lt;Foundation/Foundation.h&gt;
+
+@class AFHTTPRequestOperation;
+
+typedef void(^NetworkRequestCompletionBlockWithSuccess)(id responseObject);
+typedef void(^NetworkRequestCompletionBlockWithFailure)(NSError *error);
+
+@interface VASNetworkRequestManager : NSObject
+
+#pragma mark - Initialize
+
+- (instancetype)initWithBaseURL:(NSURL *)baseURL
+          baseRequestParameters:(NSDictionary *)parameters;
+
+#pragma mark - Request's
+
+- (AFHTTPRequestOperation *)sendGetRequestWithMethod:(NSString *)method
+                                          parameters:(id)parameters
+                                         resultClass:(Class)resultClass
+                                             success:(NetworkRequestCompletionBlockWithSuccess)success
+                                             failure:(NetworkRequestCompletionBlockWithFailure)failure;
+
+@end</code></pre></figure>
+
+<p>А так же файл имплементации:</p>
+
+<figure class="highlight"><pre><code class="language-objectivec" data-lang="objectivec">#import "VASNetworkRequestManager.h"
+
+#import "AFNetworking.h"
+#import "VASOperationManager.h"
+
+@interface VASNetworkRequestManager()
+
+@property (nonatomic, strong) VASOperationManager *operationManager;
+
+@end
+
+@implementation VASNetworkRequestManager
+
+#pragma mark - Initialize
+
+- (instancetype)initWithBaseURL:(NSURL *)baseURL
+          baseRequestParameters:(NSDictionary *)parameters
+{
+    if (self = [super init]) {
+        _operationManager = [[VASOperationManager alloc] initWithBaseURL:baseURL
+                                                        configurationAPI:parameters];
+    }
+    return self;
+}
+
+#pragma mark - Request's
+
+- (AFHTTPRequestOperation *)sendGetRequestWithMethod:(NSString *)method
+                                          parameters:(id)parameters
+                                         resultClass:(Class)resultClass
+                                             success:(NetworkRequestCompletionBlockWithSuccess)success
+                                             failure:(NetworkRequestCompletionBlockWithFailure)failure
+{
+//  Используем метод нашего кастомного менеджера, в который передаем метод, параметры и класс модели
+    AFHTTPRequestOperation *operation = [self.operationManager operationWithGET:method
+                                                                     parameters:parameters
+                                                                    resultClass:resultClass
+                                                                        success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                                            if (responseObject) {
+                                                                                if (success)
+                                                                                    success(responseObject);
+                                                                            }
+                                                                        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                                            if (error) {
+                                                                                if (failure)
+                                                                                    failure(error);
+                                                                            }
+                                                                        }];
+// После запускаем операцию и возвращаем ее
+    [operation start];
+    
+    return operation;
+}
+
+@end</code></pre></figure>
+
+<p>И наконец мы добрались до финального класса, который будем всем этим воротить - VASResourceManager. В случае с API Инстаграмма, я хотел получать полную информацию о пользователе и его последние медиа.</p>
+
+<p>Собственно, два метода:</p>
+
+<figure class="highlight"><pre><code class="language-objectivec" data-lang="objectivec">#import &lt;Foundation/Foundation.h&gt;
+
+typedef void(^CompletionBlockWithSuccess)(id responseObject);
+typedef void(^CompletionBlockWithFailure)(NSError *error);
+
+@interface VASResourceManager : NSObject
+
+- (void)requestUserInfoWithSuccess:(CompletionBlockWithSuccess)success
+                           failure:(CompletionBlockWithFailure)failure;
+- (void)requestRecentUserMediaListWithSuccess:(CompletionBlockWithSuccess)success
+                                      failure:(CompletionBlockWithFailure)failure;
+
+@end</code></pre></figure>
+
+<p>Перейдем к реализации:</p>
+
+<figure class="highlight"><pre><code class="language-objectivec" data-lang="objectivec">#import "VASResourceManager.h"
+
+#import "AFNetworking.h"
+#import "VASNetworkRequestManager.h"
+#import "VASUser.h"
+#import "VASMedia.h"
+
+static NSString *const kUserRecentMediaAPIMethod = @"media/recent";
+
+@interface VASResourceManager()
+
+@property (nonatomic, strong) VASNetworkRequestManager *manager;
+
+@end
+
+@implementation VASResourceManager
+
+- (instancetype)init
+{
+    if (self = [super init])
+    {
+        _manager = [[VASNetworkRequestManager alloc] initWithBaseURL:[NSURL URLWithString:kInstagramBaseAPIUrl]
+                                               baseRequestParameters:@{
+                                                                       @"client_id" : kInstagramAPIClientID
+                                                                       }];
+    }
+    return self;
+}
+
+- (void)requestUserInfoWithSuccess:(CompletionBlockWithSuccess)success
+                           failure:(CompletionBlockWithFailure)failure
+{
+    [self.manager sendGetRequestWithMethod:nil
+                                parameters:nil
+                               resultClass:[VASUser class]
+                                   success:^(id responseObject) {
+                                       if (responseObject) {
+                                           if (success)
+                                               success(responseObject);
+                                       }
+                                   }
+                                   failure:^(NSError *error) {
+                                       
+                                   }];
+}
+
+- (void)requestRecentUserMediaListWithSuccess:(CompletionBlockWithSuccess)success
+                                      failure:(CompletionBlockWithFailure)failure
+{
+    [self.manager sendGetRequestWithMethod:kUserRecentMediaAPIMethod
+                                parameters:nil
+                               resultClass:[VASMedia class]
+                                   success:^(id responseObject) {
+                                       if (responseObject) {
+                                           if (success)
+                                               success(responseObject);
+                                       }
+                                   }
+                                   failure:^(NSError *error) {
+                                       
+                                   }];
+}
+
+@end</code></pre></figure>
+
+<p>В данном менеджере мы используем наш VASNetworkRequestManager, и его метод, который возвращает нам запущенную операцию, и в случае чего мы сможем ее остановить и проделать многие другие манипуляции в соответствии с определенной ситуацией.</p>
+
+<p>Если поставить брэйкпоинт в методе запроса информации о пользователе в success блоке, мы увидим следующую красивую распарсенную готовую модель VASUser в responseObject:</p>
+
+<p><img src="https://habrastorage.org/files/644/33a/f1b/64433af1bfe3462ab3b450eb4da25688.png" alt="image" /></p>
+
+<p>Неправда ли удобно?!</p>
+
+<p>На этом собственно все, что хотелось показать. С данным классом, как я уже написал, должны уже работать вьюмодели и получать готовые данные в виде моделей.</p>
+
+<p>Пример кода лежит <a href="https://github.com/spbvasilenko/InstagramSample">здесь</a>. Всем спасибо за внимание!</p>
+
+  </article>
+</div>
+
+<div class="share-buttons">
+  <h6>Share on: </h6>
+  <ul>
+    <li>
+      <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/articles/2015-06/network-flow-with-afnetworking-and-mantle" class="twitter btn" title="Share on Twitter"><i class="fa fa-twitter"></i><span> Twitter</span></a>
+    </li>
+    <li>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/articles/2015-06/network-flow-with-afnetworking-and-mantle" class="facebook btn" title="Share on Facebook"><i class="fa fa-facebook"></i><span> Facebook</span></a>
+    </li>
+    <li>
+      <a href="https://plus.google.com/share?url=http://localhost:4000/articles/2015-06/network-flow-with-afnetworking-and-mantle" class="google-plus btn" title="Share on Google Plus"><i class="fa fa-google-plus"></i><span> Google+</span></a>
+    </li>
+    <li>
+      <a href="https://news.ycombinator.com/submitlink?u=http://localhost:4000/articles/2015-06/network-flow-with-afnetworking-and-mantle" class="hacker-news btn" title="Share on Hacker News"><i class="fa fa-hacker-news"></i><span> Hacker News</span></a>
+    </li>
+    <li>
+      <a href="https://www.reddit.com/submit?url=http://localhost:4000/articles/2015-06/network-flow-with-afnetworking-and-mantle" class="reddit btn" title="Share on Reddit"><i class="fa fa-reddit"></i><span> Reddit</span></a>
+    </li>
+  </ul>
+</div><!-- end share-buttons -->
+
+
+
+        <footer>
+  &copy; 2017 Igor Vasilenko.
+</footer>
+
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="http://localhost:4000/js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="http://localhost:4000/js/main.js"></script>
+
+
+</body>
+</html>

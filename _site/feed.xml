@@ -1,0 +1,1077 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Vasilenko.Tech</title>
+    <description>iOS Blog</description>
+    <link>http://localhost:4000/</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Tue, 16 May 2017 22:49:49 +0300</pubDate>
+    <lastBuildDate>Tue, 16 May 2017 22:49:49 +0300</lastBuildDate>
+    <generator>Jekyll v3.4.3</generator>
+    
+      <item>
+        <title>Develop your framework with Swift Package Manager</title>
+        <description>&lt;p&gt;The Swift Package Manager is a tool for managing the distribution of Swift code. It’s integrated with the Swift build system to automate the process of downloading, compiling, and linking dependencies.&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;Why?&lt;/b&gt;&lt;/p&gt;
+
+&lt;p&gt;Many existing Swift packages are available, but currently no central listings service like NPM exists, so finding them can be hard. One option is The IBM Swift Package Catalog, but it contains a mixture of CocoaPods, Carthage and Swift packages. When we develop its own framework , we must ensure that we will deliver it to our users. There many of post’s about using SPM with your web-apps (lol :D), but nothing about develop own framework with SPM.&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;The problem&lt;/b&gt;&lt;/p&gt;
+
+&lt;p&gt;It’s really painfull build our Package of framework in terminal via &lt;code class=&quot;highlighter-rouge&quot;&gt;swift build&lt;/code&gt; without autocompletion and all features of IDE.&lt;/p&gt;
+
+&lt;p&gt;It’s easy to fix in two steps:&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;Let’s try&lt;/b&gt;&lt;/p&gt;
+
+&lt;p&gt;The first step to using Swift is to &lt;a href=&quot;https://swift.org/download&quot;&gt;download&lt;a&gt;&lt;/a&gt; and install the compiler and other required components. Go to the Download page and follow the instructions for your target platform.&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;The default location for the downloadable toolchain on macOS is /Library/Developer/Toolchains. You can make the tools available for use from the terminal with the following command:&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/Library/Developer/Toolchains/swift-latest.xctoolchain/usr/bin:&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;b&gt;First step&lt;/b&gt;&lt;/p&gt;
+
+&lt;p&gt;Imagine we have already folder of our framework with some class, like on screenshot&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://habrastorage.org/files/589/977/e11/589977e1114149768ba18f6cf368ba1b.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Firstly, we should init Package for your framework with command in Terminal&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;swift package init --type executable
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;After installing Package for our Framework we have a structure as on screenshot:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://habrastorage.org/files/58e/c3d/efa/58ec3defa3ec48b697fbca65bff6d6e4.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Let’s move our some class to Sources folder&lt;/p&gt;
+
+&lt;p&gt;So, now we have executable Package of our framework, also we can build it with command:&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;swift build
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;After the command finishes, the built products will be available in the .build directory. Run the Framework program with the following command:&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;.build/debug/Framework
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;b&gt;Second step&lt;/b&gt;&lt;/p&gt;
+
+&lt;p&gt;In our folder of Framework run command for generate xcproj with Package via command:&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;swift package generate-xcodeproj
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://habrastorage.org/files/89e/aa6/1db/89eaa61dbac04288b1ddc750ef75658e.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Open generated project and setup main scheme for executable type:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://habrastorage.org/files/7c9/740/208/7c9740208d9d42abb7dfc5b97338a44f.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;After all step we now can easily develop framework in Xcode with all features of IDE like debugging, etc.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://habrastorage.org/files/ebb/afd/d59/ebbafdd596fc4a118765e9619a2b6e6d.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;Good reads&lt;/b&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://swift.org/package-manager/&quot;&gt;Swift Package Manager&lt;a&gt;&lt;/a&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://medium.com/swift-programming/swift-package-manger-version-syntax-f3a5c053a613#.mpk9l2mk8&quot;&gt;Swift Package Manager version Syntax&lt;a&gt;&lt;/a&gt;&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Mon, 19 Sep 2016 00:00:00 +0300</pubDate>
+        <link>http://localhost:4000/articles/2016-09/develop-framework-with-swift-package-manager</link>
+        <guid isPermaLink="true">http://localhost:4000/articles/2016-09/develop-framework-with-swift-package-manager</guid>
+        
+        
+        <category>swift</category>
+        
+        <category>swift package manager</category>
+        
+      </item>
+    
+      <item>
+        <title>Swift Array search performance</title>
+        <description>&lt;p&gt;In this week, I’m interested in how to have fun fast search algorithms in the array in the Swift. And he came to a big surprise!&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;Story&lt;/b&gt;&lt;/p&gt;
+
+&lt;p&gt;Right now, for Array implemented &lt;code class=&quot;highlighter-rouge&quot;&gt;array.contains(element)&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;array.indexOf(element)&lt;/code&gt; for searching in an array. Both of these methods iterate over all elements in the array, starting at index 0, until they find a match. In Big O notation, the methods’ performance characteristic is O(n). This is usually not a problem for small arrays with only a few dozen elements, but we have array of 100000000 elements? We want to look for a faster search algorithm.&lt;/p&gt;
+
+&lt;p&gt;In the Swift, Apple doesn’t implemented binary search for arrays yet! It was a big suprise for me!&lt;/p&gt;
+
+&lt;p&gt;If the array is sorted by the search key, binary search can give you a huge boost in performance. By comparing the middle element in the array to the search item, the algorithm effectively halves the number of elements it has to search trough with each iteration. Binary search has O(log n) performance. What does this mean in practice? Searching a sorted array of 100,000 elements using binary search would require at most 17 comparisons compared to the 50,000 comparisons a naive linear search would take on average.&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;Measure performance&lt;/b&gt;&lt;/p&gt;
+
+&lt;p&gt;Today, I make example project for measure performance beetween function indexOf in the Array with 100000000 elements and with my simple implementation binary search.&lt;/p&gt;
+
+&lt;p&gt;So, finding the last element in sorted array with 100000000 elements takes:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Standard &lt;code class=&quot;highlighter-rouge&quot;&gt;indexOf()&lt;/code&gt; search - 3 sec average&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Binary search - 1.5 sec average&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Not a bad difference, right?!&lt;/p&gt;
+
+&lt;p&gt;You can find my performance test in &lt;a href=&quot;https://github.com/vasilenkoigor/SwiftArraySearchMeasureTest&quot;&gt;my repo&lt;a&gt;&lt;/a&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;Swift evolution proposal&lt;/b&gt;&lt;/p&gt;
+
+&lt;p&gt;Also, I do not understand why Apple has not yet implemented a binary search for the array in the Swift. In this regard, the &lt;a href=&quot;https://github.com/apple/swift-evolution/pull/516&quot;&gt;proposal&lt;a&gt;&lt;/a&gt; I made in Swift evolution. But PR was closed because this is out of scope for Swift 4 stage 1.&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Good link: http://bigocheatsheet.com&lt;/p&gt;
+</description>
+        <pubDate>Fri, 09 Sep 2016 00:00:00 +0300</pubDate>
+        <link>http://localhost:4000/articles/2016-09/swift-array-search-performance</link>
+        <guid isPermaLink="true">http://localhost:4000/articles/2016-09/swift-array-search-performance</guid>
+        
+        
+        <category>swift</category>
+        
+        <category>algorithms</category>
+        
+        <category>performance</category>
+        
+      </item>
+    
+      <item>
+        <title>Code-review</title>
+        <description>&lt;p&gt;В данном посте хотелось бы поговорить о прекрасном слове “Code-review” и рассказать как он построен в команде YOTA.&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;Немного лирики&lt;/b&gt;
+&lt;img src=&quot;https://habrastorage.org/files/8ee/4be/9c7/8ee4be9c7cd544d8a34890ba76cb1344.png&quot; alt=&quot;enter image description here&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;В моем понимании, code-review - это прежде всего инструмент. Инструмент,  который нам помогает следить за качеством кода. Можно долго говорить о том, что такое “качество кода” и каким оно должно быть в идеальном мире,  но поговорим об этом в следующий раз. Могу посоветовать прочесть замечательную книгу “Clean Code” написанную дядюшкой Бобом. По моему мнению, code-review должен существовать в любом проекте, который пишут несколько людей и важно понимать зачем он нам нужен, понимать при этом - правильно. Я встречал достаточно людей, которые пренебрежительно относятся к ревью кода, а иногда и совсем неадекватно, потому что во время ревью, ревьювер задевает его чувства и словно придирается к каждой строчке.&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;На что следует обращать внимание&lt;/b&gt;&lt;/p&gt;
+
+&lt;p&gt;При проведении code-review,  по моему собственному опыту, я прежде всего обращаю внимание на следующие вещи:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Code-style, который прописан в нашей команде&lt;/li&gt;
+  &lt;li&gt;Вразумительное наименование методов и переменных&lt;/li&gt;
+  &lt;li&gt;Так же, у меня есть небольшой принцип по количеству строк в методе - размер метода не должен быть больше 50 строк кода&lt;/li&gt;
+  &lt;li&gt;Следование SOLID принципам (ну как минимум - SRP)&lt;/li&gt;
+  &lt;li&gt;Консистентность логики&lt;/li&gt;
+  &lt;li&gt;Многопоточность (дэдлоки, рейс кондишены, фриз main thread’а)&lt;/li&gt;
+  &lt;li&gt;Архитектурные особенности проекта (в нашем случае - MVVM)&lt;/li&gt;
+  &lt;li&gt;Retain cycle’s и управление памятью&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;b&gt;Как построен процесс code-review в YOTA&lt;/b&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Во первых, наша команда следует следующему Git-flow принципу:
+    &lt;ul&gt;
+      &lt;li&gt;Для каждого релиза существует своя ветка, к примеру dev-3.0&lt;/li&gt;
+      &lt;li&gt;При разработке новой фичи, разработчик бранчуется от ветки текущего релиза со следующим  именованием - “3.0/feature/(JIRA-Ticket)-name-of-task” - данное именование ветки нашей новой фичи помогает нам видеть созданные папочки в SourceTree по релизам, что упрощает навигацию.&lt;/li&gt;
+      &lt;li&gt;Примерно два-три раза в день делается rebase ветки с веткой релиза&lt;/li&gt;
+      &lt;li&gt;По завершению разработки фичи,  создается code-review в UpSource на ревьювера&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Ревьюверу приходит нотификация о том, что на него создано code-review:
+    &lt;ul&gt;
+      &lt;li&gt;Если в ходе ревью кода возникают замечания, ревьювер в праве нажать кнопочку с пальцем вниз (“все херня, Вася”) и пинает разработчика фичи.&lt;/li&gt;
+      &lt;li&gt;После того, как разработчик исправит замечания, ревизия добавляется к существующему  code-review и ревьюверу снова приходит об этом нотификация.&lt;/li&gt;
+      &lt;li&gt;В случае успешного прохождения code-review, ревьювер жмет кнопочку палец вверх (“Accept”),  об этом информируется разработчик фичи, и это значит, что можно делать merge в ветку релиза. Происходит merge и закрывается сразу же созданное ревью в Upsource.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Собственно, это весь процесс.&lt;/p&gt;
+
+&lt;p&gt;Если в команде находится человек небольшого профессионального опыта или только что появился на проекте, то ревью создается на каждый коммит.&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;В конце концов&lt;/b&gt;&lt;/p&gt;
+
+&lt;p&gt;В конце концов,  при данном процессе и взаимопонимании,  в результате мы получаем на выходе качественный код,  на который не так страшно и стыдно смотреть.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 01 Sep 2016 00:00:00 +0300</pubDate>
+        <link>http://localhost:4000/articles/2016-09/code-review</link>
+        <guid isPermaLink="true">http://localhost:4000/articles/2016-09/code-review</guid>
+        
+        
+        <category>code-review</category>
+        
+        <category>processes</category>
+        
+      </item>
+    
+      <item>
+        <title>ReactiveCocoa. Concurrency. Multithreading.</title>
+        <description>&lt;p&gt;Сегодня хотелось бы поговорить о работе с потоками в ReactiveCocoa. Я не буду вдаваться в подробности основ фреймворка и полагаю, что вы уже знакомы с базовыми принципами реактивного программирования в iOS.&lt;/p&gt;
+
+&lt;p&gt;Работа с потоками в мобильном приложении наиважнейшая тема и это все знают. Стандарнтыми инструментами для этого, являются GCD или NSOperation. Но при использовании ReactiveCocoa в нашем проекте, все становится несколько иначе. Нет, вам никто не запрещает использовать стандартные инструменты, но зачем? Мы в каждый блок будем пихать GCD? Для этого в ReactiveCocoa придумали весьма удобную реализацию.&lt;/p&gt;
+
+&lt;p&gt;Для работы с многопоточностью в ReactiveCocoa существует класс RACScheduler. По сути, это обертка над GCD… и имеет те же самые приоритеты потоков, что и у GCD:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot; data-lang=&quot;objective-c&quot;&gt;typedef enum : long {
+	RACSchedulerPriorityHigh = DISPATCH_QUEUE_PRIORITY_HIGH,
+	RACSchedulerPriorityDefault = DISPATCH_QUEUE_PRIORITY_DEFAULT,
+	RACSchedulerPriorityLow = DISPATCH_QUEUE_PRIORITY_LOW,
+	RACSchedulerPriorityBackground = DISPATCH_QUEUE_PRIORITY_BACKGROUND,
+} RACSchedulerPriority;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Рассмотрим основные методы RACScheduler, которые могут нам понадобиться при работе с ним:&lt;/p&gt;
+
+&lt;p&gt;Из названия, в принципе, становится ясно, что нам возвращается RACScheduler, который будет выполнять работу в главном потоке.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot; data-lang=&quot;objective-c&quot;&gt;+ (RACScheduler *)mainThreadScheduler;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;В данном случае, нам возвращается RACSCheduler с указанным приоритетом и уже не в главном потоке.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot; data-lang=&quot;objective-c&quot;&gt;+ (RACScheduler *)schedulerWithPriority:(RACSchedulerPriority)priority;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Возвращает RACScheduler c приоритетом RACSchedulerPriorityDefault.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot; data-lang=&quot;objective-c&quot;&gt;+ (RACScheduler *)scheduler;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Возвращает текущий RACScheduler из текущего NSThread.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot; data-lang=&quot;objective-c&quot;&gt;+ (RACScheduler *)currentScheduler;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Блок, который RACSCheduler может выполнить где угодно. И к этому мы еще вернемся.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot; data-lang=&quot;objective-c&quot;&gt;- (RACDisposable *)schedule:(void (^)(void))block;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Далее приведу основные функции для RACSignal, которые могут использоваться нами для управления многопоточностью:
+Данный метод RACSignal, говорит о том, что блоки получения новых значений в subscribeNext/doNext/subscribeError/etc. будут выполняться в том RACSCheduler, который мы вернем.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot; data-lang=&quot;objective-c&quot;&gt;- (RACSignal *)deliverOn:(RACScheduler *)scheduler&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Данный метод RACSignal, говорит о том, в каком RACScheduler будет выполняться блок, созданный при создании подписки (если мы говорим про ReactiveCocoa 2.5, то это: +[RACSignal createSignal:])&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot; data-lang=&quot;objective-c&quot;&gt;- (RACSignal *)subscribeOn:(RACScheduler *)scheduler&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Приведу два коротких примера и мы на этом закончим&lt;/p&gt;
+
+&lt;p&gt;Создадим простой сигнал:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot; data-lang=&quot;objective-c&quot;&gt;RACSignal *signal = [RACSignal createSignal:^RACDisposable *(id &amp;lt;RACSubscriber&amp;gt; subscriber) {
+// block executes on other thread with default priority
+        for (NSInteger i = 0; i &amp;lt; 5000; i++) {
+            NSLog(@&quot;LOL&quot;);
+            if (i == 5000) {
+            [subscriber sendNext:@(YES)];
+            }
+        }
+        return nil;
+    }];&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Очевидно, что при создании подписки на данный сигнал, пока цикл не закончится, то мы не получим ни единого значения. У кого-то, код выполняющийся в этом блоке, будет довольно ресурсоемким. Попробуем разнести по тредам.&lt;/p&gt;
+
+&lt;p&gt;Создадим подписку на сигнал и укажем сигналу subscribeOn/deliverOn&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot; data-lang=&quot;objective-c&quot;&gt;[[[signal subscribeOn:[RACScheduler scheduler]]
+                deliverOn:[RACScheduler mainThreadScheduler]] subscribeNext:^(id x) {
+                // block executes on main thread
+}];&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;В данном случае, как видно по комментариям, значения мы будем получать в главном потоке, где можно, к примеру, обновлять UI. А в блоке создании подписки код будет выполняться в другом потоке, что поможет снизить нагрузку на главный поток.&lt;/p&gt;
+
+&lt;p&gt;И последний пример, я покажу вам как из бэкграунд потока запустить код в главном потоке. 
+С GCD это выглядело бы как все уже знают следующим образом:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot; data-lang=&quot;objective-c&quot;&gt;dispatch_async(dispatch_get_global_queue(0, DISPATCH_QUEUE_PRIORITY_DEFAULT), ^{
+        // do something
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // do something
+        });
+    });&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;И как это можно реализовать с RACSheduler:
+Как мы помним, при создании подписки на этот сигнал, мы указали, что он будет выполняться не в главном потоке. Но что делать, если в каком то месте, нам все понадобиться выполнить часть кода на главном потоке? Очень просто :) Здесь нам поможет - (RACDisposable *)schedule:(void (^)(void))block;&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot; data-lang=&quot;objective-c&quot;&gt;RACSignal *signal = [RACSignal createSignal:^RACDisposable *(id &amp;lt;RACSubscriber&amp;gt; subscriber) {
+// block executes on other thread with default priority
+        for (NSInteger i = 0; i &amp;lt; 5000; i++) {
+            NSLog(@&quot;LOL&quot;);
+            if (i == 5000) {
+            [subscriber sendNext:@(YES)];
+            }
+        }
+        [[RACScheduler mainThreadScheduler] schedule:^(void v) {
+            // do something on main thread
+        }];
+        return nil;
+    }];&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;На этом все :) Спасибо большое за внимание! И кстати, отличная новость: 
+Состоялся долгожданный релиз RAC4!
+https://github.com/ReactiveCocoa/ReactiveCocoa/releases/tag/v4.0.0&lt;/p&gt;
+</description>
+        <pubDate>Sat, 30 Jan 2016 00:00:00 +0300</pubDate>
+        <link>http://localhost:4000/articles/2016-01/ReactiveCocoa-Concurrency-Multithreading</link>
+        <guid isPermaLink="true">http://localhost:4000/articles/2016-01/ReactiveCocoa-Concurrency-Multithreading</guid>
+        
+        
+        <category>frp</category>
+        
+        <category>reactivecocoa</category>
+        
+      </item>
+    
+      <item>
+        <title>LLDB. Использование expr и переменных</title>
+        <description>&lt;p&gt;Давненько не писал ничего интересного и решил исправить ситуацию. Люблю делиться тем, чего сам совсем недавно узнал и попробовал на практике. И сегодня мы поговорим об LLDB в Xcode, а в частности про команду expr.&lt;/p&gt;
+
+&lt;p&gt;Как часто мы тестируем какие-либо кейсы бизнес-логики в наших приложениях? Как часто мы хардкодим ветки if, только для того, чтобы зайти в эту ветку и посмотреть поведение приложения? И как часто, мы перекомпилируем наш проект? Очень огромное количество раз!&lt;/p&gt;
+
+&lt;p&gt;В этом случае нам может помочь как раз команда expr, если поставить breakepoint в нужном вам месте кода. Приведу реальный кейс:&lt;/p&gt;
+
+&lt;p&gt;В контроллере у нас лежит какая-либо UIView, при переходе в этот контроллер, мы хотим посмотреть на UIView в разных состояниях, к примеру разного цвета. Для того, чтобы это сделать, вы, наверное, каждый раз меняли цвет у view и пересобирали проект. Но можно это сделать гораздо быстрее и проще. Достаточно поставить брейкпоинт во viewDidLoad и выполнить в LLDB консоли следущую команду:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot; data-lang=&quot;objective-c&quot;&gt;expr self.view.backgroundColor = [UIColor blueColor];&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;затем&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot; data-lang=&quot;objective-c&quot;&gt;continue&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;В конечном результате мы меняем цвет нашей view буквально на лету! Хотя, буквально сейчас узнал еще от друга еще один способ менять свойства UI эелементов. Это найти во UI дебаггере нашу view, скопировать ее адрес и уже используя адрес модифицировать вьюху. Но команда expr умеет гораздо больше!&lt;/p&gt;
+
+&lt;p&gt;Двигаемся дальше.
+Приведу еще один пример, нечто гораздо больше. Снова ставим брэйкпоинт во viewDidLoad в каком либо контроллере и выполним команду:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot; data-lang=&quot;objective-c&quot;&gt;[self prepareForSegue:&amp;lt;#(nonnull UIStoryboardSegue *)#&amp;gt; sender:&amp;lt;#(nullable id)#&amp;gt;]&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;затем&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot; data-lang=&quot;objective-c&quot;&gt;continue&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;После этого нас перекинет на тот экран, который мы указали :) Впечатляет, не правда ли?&lt;/p&gt;
+
+&lt;p&gt;Следующий пример. У нас есть несколько кейсов, выполняющих разные действия, точнее какой-нибудь switch или ветки с if/else.
+Опять же, для того, чтобы зайти насильно в какой либо case или ветку if мы будем хардкодить в коде и пересобирать проект? Не нужно!
+Снова ставим breakpoint, допустим, перед выполнением swith или начало ветки if.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot; data-lang=&quot;objective-c&quot;&gt;if (self.dataIsReady) {
+    // do something        
+  } else {
+    // do something                
+  }&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Представим, что dataIsReady у нас будет NO и мы это знаем.
+Выполним следущее после того как мы попадем в брейкпоинт:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot; data-lang=&quot;objective-c&quot;&gt;expr self.dataIsReady = YES&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;затем&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot; data-lang=&quot;objective-c&quot;&gt;continue&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;После этого, мы переходим в ту ветку if, которая нам нужна :)&lt;/p&gt;
+
+&lt;p&gt;Приведу следущую возможность команды expr. Выполнение методов и создание переменных.&lt;/p&gt;
+
+&lt;p&gt;Выводим в лог сообщение:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot; data-lang=&quot;objective-c&quot;&gt;expr (void) NSLog(@&quot;hello world!&quot;)&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Проверяем массив на содержание объекта:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot; data-lang=&quot;objective-c&quot;&gt;expr (BOOL) [self.myArray containsObject:@“CarKeys&quot;]&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Распечатываем frame нашей view:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot; data-lang=&quot;objective-c&quot;&gt;expr -- (CGRect) [self.view frame]&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Стоит отметить “–” указывает, что мы хотим выполнить фактическую команду.&lt;/p&gt;
+
+&lt;p&gt;Создание переменных осуществляется следующим способом:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot; data-lang=&quot;objective-c&quot;&gt;expr int $meaningOfLife = 42
+expr 100 + $meaningOfLife
+(int) $0 = 142 
+(lldb) p $0 + 200 (int) 
+$1 = 24&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Ключевым символом создания переменной является “$”.&lt;/p&gt;
+
+&lt;p&gt;И последний пример. Пишем и выполняем код на лету:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot; data-lang=&quot;objective-c&quot;&gt;(lldb) expr NSString * $json = [self fetchRemoteData]; 
+(lldb) expr NSData * $data = [$json dataUsingEncoding:4]
+(lldb) expr NSDictionary * $parsedJson = [NSJSONSerialization JSONObjectWithData: $data options:0 error:NULL];
+(lldb) po parsedData
+{ username : Brian, password : 1234 }&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;На этом все. Надеюсь вам пригодится данная фича LLDB и вы будете ее активно использовать. Спасибо за внимание! :)&lt;/p&gt;
+</description>
+        <pubDate>Fri, 22 Jan 2016 00:00:00 +0300</pubDate>
+        <link>http://localhost:4000/articles/2016-01/LLDB-using-expr-and-variables</link>
+        <guid isPermaLink="true">http://localhost:4000/articles/2016-01/LLDB-using-expr-and-variables</guid>
+        
+        
+        <category>lldb</category>
+        
+        <category>debugging</category>
+        
+      </item>
+    
+      <item>
+        <title>Выполняем несколько анимаций последовательно с конечным callback блоком</title>
+        <description>&lt;p&gt;На днях потребовалось написать класс, который бы умел выполнять анимации в сериальном порядке, которые мы бы передавали в массиве. Так же требовалось, чтобы по окончанию всех анимаций был общий callback блок. Хотелось бы поделиться с вами получившимся результатом.&lt;/p&gt;
+
+&lt;p&gt;Во-первых, какие свойства должен уметь класс, который выполняет анимации? Я обозначил для себя несколько свойств, которые определил в интерфейсе класса:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot; data-lang=&quot;objective-c&quot;&gt;@property (nonatomic, assign) NSTimeInterval duration;
+@property (nonatomic, assign) NSTimeInterval delay;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Собственно, я посчитал, что этих свойств вполне достаточно для работы класса.&lt;/p&gt;
+
+&lt;p&gt;Во-вторых, я обозначил два метода:&lt;/p&gt;
+
+&lt;p&gt;Метод инициализатор:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot; data-lang=&quot;objective-c&quot;&gt;- (instancetype)initWithDuration:(NSTimeInterval)duration
+                           delay:(NSTimeInterval)delay;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;И метод, в который бы мы передавали массив с блоками анимаций и completionBlock:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot; data-lang=&quot;objective-c&quot;&gt;- (void)doAnimations:(NSArray *)animations completion:(CompletionBlock)completion;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Перейдем к реализации класса!&lt;/p&gt;
+
+&lt;p&gt;С методом инициализации в принципе все довольно ожидаемо:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot; data-lang=&quot;objective-c&quot;&gt;- (instancetype)initWithDuration:(NSTimeInterval)duration
+                           delay:(NSTimeInterval)delay
+{
+    if (self = [super init]) {
+        _duration = duration;
+        _delay = delay;
+    }
+    return self;
+}&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;И наконец, сам метод, который выполняет анимации:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot; data-lang=&quot;objective-c&quot;&gt;- (void)doAnimations:(NSArray *)animations completion:(CompletionBlock)completion
+{
+//Перебираем массив с блоками анимаций. Используем метод addKeyframeWithRelativeStartTime, для того, чтобы анимации выполнялись в нужном нам порядке по времени.
+    AnimationBlock animationsBlock = ^{
+        [animations enumerateObjectsUsingBlock:^(AnimationBlock animation, NSUInteger index, BOOL *stop) {
+            [UIView addKeyframeWithRelativeStartTime:index/(CGFloat)animations.count
+                                    relativeDuration:1/(CGFloat)animations.count
+                                          animations:animation];
+        }];
+    };
+//В конце передаем блок с нашими анимациями в метод animateKeyframesWithDuration, где duration мы рассчитываем как длительность анимации умноженное на количество переданных анимаций. И в итоге получаем конечный callback блок.    
+    [UIView animateKeyframesWithDuration:self.duration * animations.count
+                                   delay:self.delay
+                                 options:UIViewKeyframeAnimationOptionCalculationModeLinear | UIViewAnimationOptionCurveLinear
+                              animations:animationsBlock
+                              completion:completion];
+}&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Небольшая цитата одного из источников данного решения:&lt;/p&gt;
+
+&lt;p&gt;“UIView key-frame animations require the use of 2 methods, the first of which is similar to the other block-based animation methods:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot; data-lang=&quot;objective-c&quot;&gt;animateKeyframesWithDuration:delay:options:animations:completion: &lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;This takes floats for duration and delay, a bit-mask for options and blocks for animation and completion - all pretty standard in the world of UIView animations. The difference comes in the method we call inside the animation block:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot; data-lang=&quot;objective-c&quot;&gt;addKeyframeWithRelativeStartTime:relativeDuration:animations:&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;This method is used to add the fixed points within the animation sequence.”&lt;/p&gt;
+
+&lt;p&gt;На этом все! Возможно есть еще варианты решения данной задачи, но долгими поисками, я для себя нашел именно такое.
+Всем спасибо за внимание!&lt;/p&gt;
+</description>
+        <pubDate>Thu, 25 Jun 2015 00:00:00 +0300</pubDate>
+        <link>http://localhost:4000/articles/2015-06/do-animations-serialy</link>
+        <guid isPermaLink="true">http://localhost:4000/articles/2015-06/do-animations-serialy</guid>
+        
+        
+        <category>animation</category>
+        
+      </item>
+    
+      <item>
+        <title>Сетевой слой во главе с тандемом AFNetworking &amp; Mantle</title>
+        <description>&lt;p&gt;Всем привет! 
+Недавно, в обучающих целях, в моей компании мне дали задание попробовать написать максимально гибкий сетевой слой для API Инстаграмма. И теперь я хотел бы поделиться с Вами своим результатом, проделанным в несколько дней. Вероятно, глазами другими, написанный вариант будет выглядеть не таким уж хорошим и гибким, но мне понравилось то, до чего я дошел в конечном результате.&lt;/p&gt;
+
+&lt;p&gt;Начнем с того, что я сделал выбор в пользу замечательных AFNetworking и Mantle. Почему? Ответ очевиден: AFNetworking умеет правильно составлять NSURLRequest’ы с нужными нами параметрами и хэдэрами, а так же парсить ответ от сервера в правильный JSON. Mantle же тоже делает свое дело, парсит JSON в нужную нам модель класса. Это действительно волшебный тандем “AFNetworking &amp;amp; Mantle”, который глупо не использовать.&lt;/p&gt;
+
+&lt;p&gt;Какие главные цели когда мы пишем свой сетевой слой? Я хочу чтобы мой сетевой слой был эластичным, простым, с высокой сочетаемостью и гибким.&lt;/p&gt;
+
+&lt;p&gt;Поехали!&lt;/p&gt;
+
+&lt;p&gt;Структура слоя получилась следующая:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;VASResourceManager - менеджер, который отдает нам конечный ответ относительно конкретного запроса с нашими параметрами и методом, с ним будут работать непосредственно вью модели.&lt;/li&gt;
+  &lt;li&gt;VASNetworkRequestManager - умеет посылать запросы, который в качестве аргументов принимает наши параметры.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Помощниками Network Request Manager’a являются классы VASOperationManager, родителем которого является AFRequestOperationManager и VASJSONResponseSerializer, тоже родителем которого является AFJSONResponseSerializer.&lt;/p&gt;
+
+&lt;p&gt;Вероятно, было бы удобно, получать ответ от реквестов сразу в виде модели какого-либо класса? Мы вызываем метод, передаем ему аргументы с параметрами запроса, а так же передаем класс модели, в виде которой мы хотели бы получить уже готовый ответ.&lt;/p&gt;
+
+&lt;p&gt;В этом нам поможет AFJSONResponseSerializer, который собственно парсит ответ от сервера в JSON. Все, что нам потребуется, так это засабкласиться от данного класса, написать свой метод для инициализации, где в качестве аргумента мы укажем класс нашей модели, и дописать свою логику в следующем методе:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objectivec&quot; data-lang=&quot;objectivec&quot;&gt;- (id)responseObjectForResponse:(NSURLResponse *)response data:(NSData *)data error:(NSError *__autoreleasing *)error&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Инициализатор класса будет следующим:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objectivec&quot; data-lang=&quot;objectivec&quot;&gt;#import &quot;AFURLResponseSerialization.h&quot;
+
+@interface VASJSONResponseSerializer : AFJSONResponseSerializer
+
+- (instancetype)initWithResultClass:(Class)resultClass;
+
+@end&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Теперь перейдем в файл имплементации и допишем нашу логику для парсинга JSON в готовую модель класса с помощью Mantle:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objectivec&quot; data-lang=&quot;objectivec&quot;&gt;#import &quot;VASJSONResponseSerializer.h&quot;
+
+@interface VASJSONResponseSerializer()
+
+@property (nonatomic, strong) Class resultClass;
+@property (nonatomic, strong) id resultResponseObject;
+
+@end
+
+@implementation VASJSONResponseSerializer
+
+- (instancetype)initWithResultClass:(Class)resultClass
+{
+    if (self = [super init]) {
+        self.resultClass = resultClass;
+        self.acceptableContentTypes = [NSSet setWithObjects:@&quot;application/json&quot;, nil];
+    }
+    return self;
+}
+
+- (id)responseObjectForResponse:(NSURLResponse *)response data:(NSData *)data error:(NSError *__autoreleasing *)error
+{
+// Используем super метод класса, который возвращает нам готовый JSON
+    id responseObject = [super responseObjectForResponse:response data:data error:error];
+    
+// Если мы передали класс модели, то парсим JSON в модель, иначе возвращаем обычный чистый JSON
+    if (self.resultClass)
+    {
+        if ([responseObject[@&quot;data&quot;] isKindOfClass:[NSArray class]])
+        {
+            self.resultResponseObject = [MTLJSONAdapter modelsOfClass:self.resultClass
+                                                        fromJSONArray:responseObject[@&quot;data&quot;]
+                                                                error:NULL];
+        }
+        else if ([responseObject[@&quot;data&quot;] isKindOfClass:[NSDictionary class]])
+        {
+            self.resultResponseObject = [MTLJSONAdapter modelOfClass:self.resultClass
+                                                  fromJSONDictionary:responseObject[@&quot;data&quot;]
+                                                               error:NULL];
+        }
+    }
+    else
+    {
+        return responseObject;
+    }
+    
+    return self.resultResponseObject;
+}
+
+@end&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;На этом завершается работа с данным классом.&lt;/p&gt;
+
+&lt;p&gt;Перейдем к следующему классу - VASOperationManager. Данный класс менеджер будет уметь возвращать AFHTTPRequestOperation в методе, в который мы передадим параметры для запроса к серверу. Так же нужно добавить свой инициализатор.&lt;/p&gt;
+
+&lt;p&gt;Код заголовочного файла:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objectivec&quot; data-lang=&quot;objectivec&quot;&gt;#import &quot;AFHTTPRequestOperationManager.h&quot;
+
+typedef void(^OperationManagerCompletionBlockWithSuccess)(AFHTTPRequestOperation *operation, id responseObject);
+typedef void(^OperationManagerCompletionBlockWithFailure)(AFHTTPRequestOperation *operation, NSError *error);
+
+@interface VASOperationManager : AFHTTPRequestOperationManager
+
+#pragma mark - Initialize
+
+- (instancetype)initWithBaseURL:(NSURL *)url
+               configurationAPI:(id)configuration;
+
+#pragma mark - Operations
+#pragma mark GET
+
+- (AFHTTPRequestOperation *)operationWithGET:(NSString *)method
+                                  parameters:(id)parameters
+                                 resultClass:(Class)resultClass
+                                     success:(OperationManagerCompletionBlockWithSuccess)success
+                                     failure:(OperationManagerCompletionBlockWithFailure)failure;
+
+@end&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Файл имплементации:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objectivec&quot; data-lang=&quot;objectivec&quot;&gt;#import &quot;VASOperationManager.h&quot;
+
+#import &quot;VASJSONResponseSerializer.h&quot;
+
+@interface VASOperationManager()
+
+@property (nonatomic, strong) NSMutableDictionary *parameters;
+
+@end
+
+@implementation VASOperationManager
+
+#pragma mark - Initialize
+
+- (instancetype)initWithBaseURL:(NSURL *)url
+               configurationAPI:(id)configuration
+{
+    if (self = [super initWithBaseURL:url]) {
+        _parameters = [NSMutableDictionary dictionaryWithDictionary:configuration];
+    }
+    return self;
+}
+
+#pragma mark - Operations
+
+- (AFHTTPRequestOperation *)operationWithGET:(NSString *)method
+                                  parameters:(id)parameters
+                                 resultClass:(Class)resultClass
+                                     success:(OperationManagerCompletionBlockWithSuccess)success
+                                     failure:(OperationManagerCompletionBlockWithFailure)failure
+{
+// Создаем реквест с методом и параметрами
+    NSURLRequest *urlRequest = [self requestWithGET:method parameters:parameters];
+
+// Затем создаем операцию c нашим реквестом
+    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:urlRequest
+                                                                      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                                          if (responseObject) {
+                                                                              if (success)
+                                                                                  success(operation, responseObject);
+                                                                          }
+                                                                      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                                          if (error) {
+                                                                              if (failure)
+                                                                                  failure(operation, error);
+                                                                          }
+                                                                      }];
+// У класса AFRequestOperation имеется свойство с responseSerializer. Устанавливая наш сериализатор, операция в данном случае будет использовать наш сабкласс, и в итоге мы будем получать ответ в нужном нам виде. 
+    VASJSONResponseSerializer *responseSerializer = [[VASJSONResponseSerializer alloc] initWithResultClass:resultClass];
+    operation.responseSerializer = responseSerializer;
+    
+    return operation;
+}
+
+#pragma mark - Request's
+
+- (NSURLRequest *)requestWithGET:(NSString *)method parameters:(id)parameters
+{
+    [self.parameters addEntriesFromDictionary:parameters];
+    NSString *urlString = [[NSURL URLWithString:method? : [NSString string] relativeToURL:self.baseURL] absoluteString];
+    
+// То, зачем нужно использовать AFNetworking. Это способность создать правильный реквест с методом, параметрами и возможно еще дополнительными хэдэрами. 
+    NSURLRequest *urlRequest = [[AFHTTPRequestSerializer serializer] requestWithMethod:@&quot;GET&quot;
+                                                                             URLString:urlString
+                                                                            parameters:self.parameters
+                                                                                 error:NULL];
+    return urlRequest;
+}&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;На этом моменте мы уже можем делать запросы к серверу, используя данный менеджер.&lt;/p&gt;
+
+&lt;p&gt;Перейдем к реализации VASNetworkRequestManager:&lt;/p&gt;
+
+&lt;p&gt;Он будет иметь почти идентичный заголовочный файл, как и в случае с VASOperationManager:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objectivec&quot; data-lang=&quot;objectivec&quot;&gt;#import &amp;lt;Foundation/Foundation.h&amp;gt;
+
+@class AFHTTPRequestOperation;
+
+typedef void(^NetworkRequestCompletionBlockWithSuccess)(id responseObject);
+typedef void(^NetworkRequestCompletionBlockWithFailure)(NSError *error);
+
+@interface VASNetworkRequestManager : NSObject
+
+#pragma mark - Initialize
+
+- (instancetype)initWithBaseURL:(NSURL *)baseURL
+          baseRequestParameters:(NSDictionary *)parameters;
+
+#pragma mark - Request's
+
+- (AFHTTPRequestOperation *)sendGetRequestWithMethod:(NSString *)method
+                                          parameters:(id)parameters
+                                         resultClass:(Class)resultClass
+                                             success:(NetworkRequestCompletionBlockWithSuccess)success
+                                             failure:(NetworkRequestCompletionBlockWithFailure)failure;
+
+@end&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;А так же файл имплементации:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objectivec&quot; data-lang=&quot;objectivec&quot;&gt;#import &quot;VASNetworkRequestManager.h&quot;
+
+#import &quot;AFNetworking.h&quot;
+#import &quot;VASOperationManager.h&quot;
+
+@interface VASNetworkRequestManager()
+
+@property (nonatomic, strong) VASOperationManager *operationManager;
+
+@end
+
+@implementation VASNetworkRequestManager
+
+#pragma mark - Initialize
+
+- (instancetype)initWithBaseURL:(NSURL *)baseURL
+          baseRequestParameters:(NSDictionary *)parameters
+{
+    if (self = [super init]) {
+        _operationManager = [[VASOperationManager alloc] initWithBaseURL:baseURL
+                                                        configurationAPI:parameters];
+    }
+    return self;
+}
+
+#pragma mark - Request's
+
+- (AFHTTPRequestOperation *)sendGetRequestWithMethod:(NSString *)method
+                                          parameters:(id)parameters
+                                         resultClass:(Class)resultClass
+                                             success:(NetworkRequestCompletionBlockWithSuccess)success
+                                             failure:(NetworkRequestCompletionBlockWithFailure)failure
+{
+//  Используем метод нашего кастомного менеджера, в который передаем метод, параметры и класс модели
+    AFHTTPRequestOperation *operation = [self.operationManager operationWithGET:method
+                                                                     parameters:parameters
+                                                                    resultClass:resultClass
+                                                                        success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                                            if (responseObject) {
+                                                                                if (success)
+                                                                                    success(responseObject);
+                                                                            }
+                                                                        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                                            if (error) {
+                                                                                if (failure)
+                                                                                    failure(error);
+                                                                            }
+                                                                        }];
+// После запускаем операцию и возвращаем ее
+    [operation start];
+    
+    return operation;
+}
+
+@end&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;И наконец мы добрались до финального класса, который будем всем этим воротить - VASResourceManager. В случае с API Инстаграмма, я хотел получать полную информацию о пользователе и его последние медиа.&lt;/p&gt;
+
+&lt;p&gt;Собственно, два метода:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objectivec&quot; data-lang=&quot;objectivec&quot;&gt;#import &amp;lt;Foundation/Foundation.h&amp;gt;
+
+typedef void(^CompletionBlockWithSuccess)(id responseObject);
+typedef void(^CompletionBlockWithFailure)(NSError *error);
+
+@interface VASResourceManager : NSObject
+
+- (void)requestUserInfoWithSuccess:(CompletionBlockWithSuccess)success
+                           failure:(CompletionBlockWithFailure)failure;
+- (void)requestRecentUserMediaListWithSuccess:(CompletionBlockWithSuccess)success
+                                      failure:(CompletionBlockWithFailure)failure;
+
+@end&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Перейдем к реализации:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objectivec&quot; data-lang=&quot;objectivec&quot;&gt;#import &quot;VASResourceManager.h&quot;
+
+#import &quot;AFNetworking.h&quot;
+#import &quot;VASNetworkRequestManager.h&quot;
+#import &quot;VASUser.h&quot;
+#import &quot;VASMedia.h&quot;
+
+static NSString *const kUserRecentMediaAPIMethod = @&quot;media/recent&quot;;
+
+@interface VASResourceManager()
+
+@property (nonatomic, strong) VASNetworkRequestManager *manager;
+
+@end
+
+@implementation VASResourceManager
+
+- (instancetype)init
+{
+    if (self = [super init])
+    {
+        _manager = [[VASNetworkRequestManager alloc] initWithBaseURL:[NSURL URLWithString:kInstagramBaseAPIUrl]
+                                               baseRequestParameters:@{
+                                                                       @&quot;client_id&quot; : kInstagramAPIClientID
+                                                                       }];
+    }
+    return self;
+}
+
+- (void)requestUserInfoWithSuccess:(CompletionBlockWithSuccess)success
+                           failure:(CompletionBlockWithFailure)failure
+{
+    [self.manager sendGetRequestWithMethod:nil
+                                parameters:nil
+                               resultClass:[VASUser class]
+                                   success:^(id responseObject) {
+                                       if (responseObject) {
+                                           if (success)
+                                               success(responseObject);
+                                       }
+                                   }
+                                   failure:^(NSError *error) {
+                                       
+                                   }];
+}
+
+- (void)requestRecentUserMediaListWithSuccess:(CompletionBlockWithSuccess)success
+                                      failure:(CompletionBlockWithFailure)failure
+{
+    [self.manager sendGetRequestWithMethod:kUserRecentMediaAPIMethod
+                                parameters:nil
+                               resultClass:[VASMedia class]
+                                   success:^(id responseObject) {
+                                       if (responseObject) {
+                                           if (success)
+                                               success(responseObject);
+                                       }
+                                   }
+                                   failure:^(NSError *error) {
+                                       
+                                   }];
+}
+
+@end&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;В данном менеджере мы используем наш VASNetworkRequestManager, и его метод, который возвращает нам запущенную операцию, и в случае чего мы сможем ее остановить и проделать многие другие манипуляции в соответствии с определенной ситуацией.&lt;/p&gt;
+
+&lt;p&gt;Если поставить брэйкпоинт в методе запроса информации о пользователе в success блоке, мы увидим следующую красивую распарсенную готовую модель VASUser в responseObject:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://habrastorage.org/files/644/33a/f1b/64433af1bfe3462ab3b450eb4da25688.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Неправда ли удобно?!&lt;/p&gt;
+
+&lt;p&gt;На этом собственно все, что хотелось показать. С данным классом, как я уже написал, должны уже работать вьюмодели и получать готовые данные в виде моделей.&lt;/p&gt;
+
+&lt;p&gt;Пример кода лежит &lt;a href=&quot;https://github.com/spbvasilenko/InstagramSample&quot;&gt;здесь&lt;/a&gt;. Всем спасибо за внимание!&lt;/p&gt;
+</description>
+        <pubDate>Sat, 13 Jun 2015 00:00:00 +0300</pubDate>
+        <link>http://localhost:4000/articles/2015-06/network-flow-with-afnetworking-and-mantle</link>
+        <guid isPermaLink="true">http://localhost:4000/articles/2015-06/network-flow-with-afnetworking-and-mantle</guid>
+        
+        
+        <category>architecture</category>
+        
+        <category>network</category>
+        
+      </item>
+    
+      <item>
+        <title>Chisel - дебажим по харду!</title>
+        <description>&lt;p&gt;Вероятно все знают какого это дебажить свое приложение и в курсе, что чаще всего это боль. Сегодня наткнулся на 
+классную фичу, сделанную ребятами из “Facebook”.&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;Фича представляет собой гем, который можно установить в терминале введя пару команд и вуаля, вы теперь монстр дебага
+с прекрасным инструментом! При установке гема, фича сама себя латает в Xcode и от вас больше ничего не требуется.
+Теперь, когда мы ставим брейкпоинт в нужном нам месте, после того как откроется lldb консоль, просто введите “help” 
+и вы увидите кучу команд, которые можно использовать под любой случай. Например, можно посмотеть список всех тредов
+которые на данный момент запущены. В общем, изучаем хорошенько документацию на репозитории, запоминаем команды и вперед!&lt;/p&gt;
+
+&lt;p&gt;Так же, сама ссылка на репозиторий: &lt;a href=&quot;https://github.com/facebook/chisel#installation&quot;&gt;Chisel&lt;a&gt;&lt;/a&gt;&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Fri, 03 Apr 2015 00:00:00 +0300</pubDate>
+        <link>http://localhost:4000/articles/2015-04/chisel-debug-as-profi</link>
+        <guid isPermaLink="true">http://localhost:4000/articles/2015-04/chisel-debug-as-profi</guid>
+        
+        
+        <category>lldb</category>
+        
+        <category>debugging</category>
+        
+      </item>
+    
+      <item>
+        <title>Big-O Algorithm Complexity Cheat Sheet</title>
+        <description>&lt;p&gt;Hey, guys! Все, кто ходил на собеседования на позицию разработчика, не важно какую именно, будь то iOS или Android 
+и так далее, хотя бы раз слышали вопросы про структуры данных, асимптотику, о-большое.&lt;/p&gt;
+
+&lt;p&gt;Представляю вам отличнейший ресурс, где представлены все данные по структурам данных, их асимптотике и многое другое. 
+Я считаю, что это должен знать любой человек, который пишет код. Пусть и не досконально, но элементарные вещи все же 
+должны быть в голове, чтобы быть готовым к таким вопросам на собеседованиях. К тому же, это должно помочь писать свои алгоритмы, которые будут более эффективными.&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;Собственно, сам ресурс: &lt;a href=&quot;http://bigocheatsheet.com&quot;&gt;Big-O Cheat Sheet&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Thu, 02 Apr 2015 00:00:00 +0300</pubDate>
+        <link>http://localhost:4000/articles/2015-04/source-big-o-algorithm-complexity-cheat-sheet</link>
+        <guid isPermaLink="true">http://localhost:4000/articles/2015-04/source-big-o-algorithm-complexity-cheat-sheet</guid>
+        
+        
+        <category>algorithms</category>
+        
+      </item>
+    
+      <item>
+        <title>Разработка iOS приложений с VIPER</title>
+        <description>&lt;p&gt;&lt;b&gt;Что такое VIPER?&lt;/b&gt;&lt;/p&gt;
+
+&lt;p&gt;VIPER применяется в iOS приложениях, построенных на так называемой &lt;a href=&quot;http://blog.8thlight.com/uncle-bob/2012/08/13/the-clean-architecture.html&quot;&gt;Clean Architecture&lt;/a&gt;. Мир VIPER основан на View, Interactor, Presenter, Entity, и Routing. Clean Architecture делит логику приложения на отдельные уровни ответственности, которые показаны ниже.
+&lt;img src=&quot;http://habrastorage.org/getpro/habr/post_images/37e/86b/8fb/37e86b8fb8cc2e81e54bf6cb409d638d.jpg&quot; alt=&quot;image&quot; /&gt;
+Рассмотрим главные части архитектуры подробнее:&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;View &lt;/b&gt;- Отображает то, что ему говорит Presenter и возвращает обратно данные тому же Presenter, введенные пользователем.&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;Interactor&lt;/b&gt;- Включает в себя всю бизнес-логику.&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;Presenter&lt;/b&gt;- Включает в себя View логику подготовки данных для отображения и реагирует на обратные действия пользователя.&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;Entity&lt;/b&gt;- Включает в себя базовую модель объектов, которые использует Interactor.&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;Routing&lt;/b&gt;- Отвечает за логику навигации, какие экраны показывать и в каком порядке.&lt;/p&gt;
+
+&lt;p&gt;Это разделение так же соответствует принципу “единоличная ответственность” или &lt;a href=&quot;http://www.objectmentor.com/resources/articles/srp.pdf&quot;&gt;Single Responsibility Principle&lt;/a&gt;. То есть Interactor можно представить как бизнес-аналитика, Presenter взаимодействует с дизайнером, а View отвечает за визуального-дизайнера.&lt;/p&gt;
+
+&lt;p&gt;Ниже приведена схема, где показано как отдельные части архитектуры связаны между собой:
+&lt;img src=&quot;http://habrastorage.org/getpro/habr/post_images/6ec/b19/1c3/6ecb191c3ea7a1136b1c9ace02a0e73f.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;Interactor&lt;/b&gt;&lt;/p&gt;
+
+&lt;p&gt;Представляет собой как единственный экземпляр в iOS приложении. Он включает в себя работу бизнес-логику манипулирования моделей объектов и не выходит за другие рамки задач. Работать с Interactor довольно удобно, потому что он может быть использован как и в iOS приложении, так и в OS X.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objectivec&quot; data-lang=&quot;objectivec&quot;&gt;- (void)findUpcomingItems
+{
+    __weak typeof(self) welf = self;
+    NSDate* today = [self.clock today];
+    NSDate* endOfNextWeek = [[NSCalendar currentCalendar] dateForEndOfFollowingWeekWithDate:today];
+    [self.dataManager todoItemsBetweenStartDate:today endDate:endOfNextWeek completionBlock:^(NSArray* todoItems) {
+        [welf.output foundUpcomingItems:[welf upcomingItemsFromToDoItems:todoItems]];
+    }];
+}&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;b&gt;Entity&lt;/b&gt;&lt;/p&gt;
+
+&lt;p&gt;Объекты моделей, которые обрабатывает Interactor. Сущности могут взаимодействовать только с Interactor. Interactor никогда не передает сущности уровню отображения (т.е. Presenter). Сущности так же склонны к термину PONSOs, и если вы используете Core Data, вы нуждаетесь в управляемых объектах ваших данных. Interactors не должны работать с NSManagedObjects.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objectivec&quot; data-lang=&quot;objectivec&quot;&gt;@interface VTDTodoItem : NSObject
+
+@property (nonatomic, strong)   NSDate*     dueDate;
+@property (nonatomic, copy)     NSString*   name;
+
++ (instancetype)todoItemWithDueDate:(NSDate*)dueDate name:(NSString*)name;
+
+@end&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;b&gt;Presenter&lt;/b&gt;&lt;/p&gt;
+
+&lt;p&gt;Presenter так же придерживается POSNO и содержит логику управления UI. Он знает когда показывать пользовательский интерфейс. Собирает входящие сигналы жестов пользователя и может обновлять UI, так же посылает реквесты Interactor’у. Presenter так же получает результаты из Interactor и преобразует результаты введенные из различных форм UI. Entities никогда не передаются из Interactor Presenter’у. Presenter может только подготавливать данные для отображения в UI.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objectivec&quot; data-lang=&quot;objectivec&quot;&gt;- (void)addNewEntry
+{
+    [self.listWireframe presentAddInterface];
+}
+
+- (void)foundUpcomingItems:(NSArray*)upcomingItems
+{
+    if ([upcomingItems count] == 0)
+    {
+        [self.userInterface showNoContentMessage];
+    }
+    else
+    {
+        [self updateUserInterfaceWithUpcomingItems:upcomingItems];
+    }
+}&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;b&gt;View&lt;/b&gt;&lt;/p&gt;
+
+&lt;p&gt;View пассивен. Он ожидает пока Presenter ему не отдаст данные для отображения, при этом, никогда не просит его об этом. Методы, определенные во View должны позволять Presenter общаться с ним на уровне высокой абстракции. Presenter не знает об существовании таких элементов UI как UILabel, UIButton и так далее. Presenter знает только контенте и когда он должен быть отображен, а View определяет как его отобразить.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objectivec&quot; data-lang=&quot;objectivec&quot;&gt;@protocol VTDAddViewInterface &amp;lt;NSObject&amp;gt;
+
+- (void)setEntryName:(NSString *)name;
+- (void)setEntryDueDate:(NSDate *)date;
+
+@end&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;b&gt;Routing&lt;/b&gt;&lt;/p&gt;
+
+&lt;p&gt;В VIPER ответственность Routing разделяется на два объекта: Presenter и wireframe. Wireframe - объект, который владеет UIWindow, UINavigationController, UIViewController и так далее. Он отвечает за создание View/ViewController и установку окна. 
+Так как Presenter содержит логику на реакции пользователя, Presenter знает когда переходить на другой экран и с какого экрана. Между тем, wireframe знает как сделать эту навигацию. Значит, что Presenter будет использовать wireframe для выполнения навигаций.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objectivec&quot; data-lang=&quot;objectivec&quot;&gt;@implementation VTDAddWireframe
+
+- (void)presentAddInterfaceFromViewController:(UIViewController *)viewController 
+{
+    VTDAddViewController *addViewController = [self addViewController];
+    addViewController.eventHandler = self.addPresenter;
+    addViewController.modalPresentationStyle = UIModalPresentationCustom;
+    addViewController.transitioningDelegate = self;
+
+    [viewController presentViewController:addViewController animated:YES completion:nil];
+
+    self.presentedViewController = viewController;
+}
+
+#pragma mark - UIViewControllerTransitioningDelegate Methods
+
+- (id&amp;lt;UIViewControllerAnimatedTransitioning&amp;gt;)animationControllerForDismissedController:(UIViewController *)dismissed 
+{
+    return [[VTDAddDismissalTransition alloc] init];
+}
+
+- (id&amp;lt;UIViewControllerAnimatedTransitioning&amp;gt;)animationControllerForPresentedController:(UIViewController *)presented
+                                                                  presentingController:(UIViewController *)presenting
+                                                                      sourceController:(UIViewController *)source 
+{
+    return [[VTDAddPresentationTransition alloc] init];
+}
+
+@end&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;b&gt;Подытожим&lt;/b&gt;&lt;/p&gt;
+
+&lt;p&gt;Надеюсь, я помог вам немного больше разобраться в этой архитектуре и почему бы не испробовать ее в следующем вашем приложении, которое вы собираетесь написать?
+Всем спасибо за внимание!&lt;/p&gt;
+</description>
+        <pubDate>Mon, 30 Mar 2015 00:00:00 +0300</pubDate>
+        <link>http://localhost:4000/articles/2015-03/viper-for-ios-development</link>
+        <guid isPermaLink="true">http://localhost:4000/articles/2015-03/viper-for-ios-development</guid>
+        
+        
+        <category>architecture</category>
+        
+        <category>viper</category>
+        
+      </item>
+    
+  </channel>
+</rss>

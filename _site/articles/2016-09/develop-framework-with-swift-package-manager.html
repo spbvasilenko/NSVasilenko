@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Develop your framework with Swift Package Manager</title>
+  <meta name="description" content="The Swift Package Manager is a tool for managing the distribution of Swift code. It’s integrated with the Swift build system to automate the process of downl...">
+
+  <!-- CSS files -->
+  <link rel="stylesheet" href="http://localhost:4000/css/font-awesome.min.css">
+  <link rel="stylesheet" href="http://localhost:4000/css/main.css">
+
+  <link rel="canonical" href="http://localhost:4000/articles/2016-09/develop-framework-with-swift-package-manager">
+  <link rel="alternate" type="application/rss+xml" title="Vasilenko.Tech" href="http://localhost:4000/feed.xml" />
+
+  <!-- Icons -->
+  <!-- 16x16 -->
+  <link rel="shortcut icon" href="http://localhost:4000/favicon.ico">
+  <!-- 32x32 -->
+  <link rel="shortcut icon" href="http://localhost:4000/favicon.png">
+</head>
+
+
+<body>
+  <div class="row">
+    <div class="col s12 m3">
+      <div class="table cover">
+        
+
+<div class="cover-card table-cell table-middle">
+  
+  <img src="http://localhost:4000/img/leonids-logo.png" alt="" class="avatar">
+  
+  <a href="http://localhost:4000/" class="author_name">Igor Vasilenko</a>
+  <span class="author_job">iOS Developer at Tinkoff Bank</span>
+  <span class="author_bio mbm">Interested in clean software design</span>
+  <nav class="nav">
+    <ul class="nav-list">
+      <li class="nav-item">
+        <a href="http://localhost:4000/">home</a>
+      </li>
+       
+      <li class="nav-item">
+        <a href="http://localhost:4000/archive/">Archive</a>
+      </li>
+          
+      <li class="nav-item">
+        <a href="http://localhost:4000/categories/">Categories</a>
+      </li>
+           
+    </ul>
+  </nav>
+  <script type="text/javascript">
+  // based on http://stackoverflow.com/a/10300743/280842
+  function gen_mail_to_link(hs, subject) {
+    var lhs,rhs;
+    var p = hs.split('@');
+    lhs = p[0];
+    rhs = p[1];
+    document.write("<a class=\"social-link-item\" target=\"_blank\" href=\"mailto");
+    document.write(":" + lhs + "@");
+    document.write(rhs + "?subject=" + subject + "\"><i class=\"fa fa-fw fa-envelope\"></i><\/a>");
+  }
+</script>
+<div class="social-links">
+  <ul>
+    
+      <li>
+      <script>gen_mail_to_link('devnull.igor@gmail.com', 'Hello from website');</script>
+      </li>
+    
+    <li><a href="http://twitter.com/i_vasilenko" class="social-link-item" target="_blank"><i class="fa fa-fw fa-twitter"></i></a></li>
+    
+    
+    <li><a href="http://linkedin.com/in/ivasilenko" class="social-link-item" target="_blank"><i class="fa fa-fw fa-linkedin"></i></a></li>
+    <li><a href="skype:love-zenit.vasilenko" class="social-link-item" target="_blank"><i class="fa fa-fw fa-skype"></i></a></li>
+    
+    <li><a href="http://instagram.com/ivasilenko" class="social-link-item" target="_blank"><i class="fa fa-fw fa-instagram"></i></a></li>
+    
+    <li><a href="http://github.com/vasilenkoigor" class="social-link-item" target="_blank"><i class="fa fa-fw fa-github"></i></a></li>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </ul>
+</div>
+
+</div>
+
+      </div>
+    </div>
+    <div class="col s12 m9">
+      <div class="post-listing">
+        <a class="btn" href= "http://localhost:4000/" >
+  Home
+</a>
+
+
+
+<div id="post">
+  <header class="post-header">
+    <h1 title="Develop your framework with Swift Package Manager">Develop your framework with Swift Package Manager</h1>
+    <span class="post-meta">
+      <span class="post-date">
+        19 SEP 2016
+      </span>
+      •
+      <span class="read-time" title="Estimated read time">
+  
+  
+    2 mins read
+  
+</span>
+
+    </span>
+
+  </header>
+
+  <article class="post-content">
+    <p>The Swift Package Manager is a tool for managing the distribution of Swift code. It’s integrated with the Swift build system to automate the process of downloading, compiling, and linking dependencies.</p>
+
+<p><b>Why?</b></p>
+
+<p>Many existing Swift packages are available, but currently no central listings service like NPM exists, so finding them can be hard. One option is The IBM Swift Package Catalog, but it contains a mixture of CocoaPods, Carthage and Swift packages. When we develop its own framework , we must ensure that we will deliver it to our users. There many of post’s about using SPM with your web-apps (lol :D), but nothing about develop own framework with SPM.</p>
+
+<p><b>The problem</b></p>
+
+<p>It’s really painfull build our Package of framework in terminal via <code class="highlighter-rouge">swift build</code> without autocompletion and all features of IDE.</p>
+
+<p>It’s easy to fix in two steps:</p>
+
+<p><b>Let’s try</b></p>
+
+<p>The first step to using Swift is to <a href="https://swift.org/download">download<a></a> and install the compiler and other required components. Go to the Download page and follow the instructions for your target platform.</a></p>
+
+<p>The default location for the downloadable toolchain on macOS is /Library/Developer/Toolchains. You can make the tools available for use from the terminal with the following command:</p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span>/Library/Developer/Toolchains/swift-latest.xctoolchain/usr/bin:<span class="s2">"</span><span class="k">${</span><span class="nv">PATH</span><span class="k">}</span><span class="s2">"</span>
+</code></pre>
+</div>
+
+<p><b>First step</b></p>
+
+<p>Imagine we have already folder of our framework with some class, like on screenshot</p>
+
+<p><img src="https://habrastorage.org/files/589/977/e11/589977e1114149768ba18f6cf368ba1b.png" /></p>
+
+<p>Firstly, we should init Package for your framework with command in Terminal</p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code>swift package init --type executable
+</code></pre>
+</div>
+
+<p>After installing Package for our Framework we have a structure as on screenshot:</p>
+
+<p><img src="https://habrastorage.org/files/58e/c3d/efa/58ec3defa3ec48b697fbca65bff6d6e4.png" /></p>
+
+<p>Let’s move our some class to Sources folder</p>
+
+<p>So, now we have executable Package of our framework, also we can build it with command:</p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code>swift build
+</code></pre>
+</div>
+
+<p>After the command finishes, the built products will be available in the .build directory. Run the Framework program with the following command:</p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code>.build/debug/Framework
+</code></pre>
+</div>
+
+<p><b>Second step</b></p>
+
+<p>In our folder of Framework run command for generate xcproj with Package via command:</p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code>swift package generate-xcodeproj
+</code></pre>
+</div>
+
+<p><img src="https://habrastorage.org/files/89e/aa6/1db/89eaa61dbac04288b1ddc750ef75658e.png" /></p>
+
+<p>Open generated project and setup main scheme for executable type:</p>
+
+<p><img src="https://habrastorage.org/files/7c9/740/208/7c9740208d9d42abb7dfc5b97338a44f.png" /></p>
+
+<p>After all step we now can easily develop framework in Xcode with all features of IDE like debugging, etc.</p>
+
+<p><img src="https://habrastorage.org/files/ebb/afd/d59/ebbafdd596fc4a118765e9619a2b6e6d.png" /></p>
+
+<p><b>Good reads</b></p>
+
+<p><a href="https://swift.org/package-manager/">Swift Package Manager<a></a></a></p>
+
+<p><a href="https://medium.com/swift-programming/swift-package-manger-version-syntax-f3a5c053a613#.mpk9l2mk8">Swift Package Manager version Syntax<a></a></a></p>
+
+  </article>
+</div>
+
+<div class="share-buttons">
+  <h6>Share on: </h6>
+  <ul>
+    <li>
+      <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/articles/2016-09/develop-framework-with-swift-package-manager" class="twitter btn" title="Share on Twitter"><i class="fa fa-twitter"></i><span> Twitter</span></a>
+    </li>
+    <li>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/articles/2016-09/develop-framework-with-swift-package-manager" class="facebook btn" title="Share on Facebook"><i class="fa fa-facebook"></i><span> Facebook</span></a>
+    </li>
+    <li>
+      <a href="https://plus.google.com/share?url=http://localhost:4000/articles/2016-09/develop-framework-with-swift-package-manager" class="google-plus btn" title="Share on Google Plus"><i class="fa fa-google-plus"></i><span> Google+</span></a>
+    </li>
+    <li>
+      <a href="https://news.ycombinator.com/submitlink?u=http://localhost:4000/articles/2016-09/develop-framework-with-swift-package-manager" class="hacker-news btn" title="Share on Hacker News"><i class="fa fa-hacker-news"></i><span> Hacker News</span></a>
+    </li>
+    <li>
+      <a href="https://www.reddit.com/submit?url=http://localhost:4000/articles/2016-09/develop-framework-with-swift-package-manager" class="reddit btn" title="Share on Reddit"><i class="fa fa-reddit"></i><span> Reddit</span></a>
+    </li>
+  </ul>
+</div><!-- end share-buttons -->
+
+
+
+        <footer>
+  &copy; 2017 Igor Vasilenko.
+</footer>
+
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="http://localhost:4000/js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="http://localhost:4000/js/main.js"></script>
+
+
+</body>
+</html>

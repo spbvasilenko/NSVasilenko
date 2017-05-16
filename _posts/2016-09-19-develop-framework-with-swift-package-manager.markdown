@@ -1,8 +1,9 @@
 ---
 layout: post
-title:  "Develop your framework with Swift Package Manager"
-date:   2016-09-19 00:00:00
-categories: swift ios swift-package-manager
+title: Develop your framework with Swift Package Manager
+excerpt: "The Swift Package Manager is a tool for managing the distribution of Swift code. It’s integrated with the Swift build system to automate the process of downloading, compiling, and linking dependencies."
+categories: [swift, swift package manager]
+comments: true
 ---
 
 The Swift Package Manager is a tool for managing the distribution of Swift code. It’s integrated with the Swift build system to automate the process of downloading, compiling, and linking dependencies.

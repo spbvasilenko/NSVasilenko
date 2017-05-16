@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>ReactiveCocoa. Concurrency. Multithreading.</title>
+  <meta name="description" content="Сегодня хотелось бы поговорить о работе с потоками в ReactiveCocoa. Я не буду вдаваться в подробности основ фреймворка и полагаю, что вы уже знакомы с базовы...">
+
+  <!-- CSS files -->
+  <link rel="stylesheet" href="http://localhost:4000/css/font-awesome.min.css">
+  <link rel="stylesheet" href="http://localhost:4000/css/main.css">
+
+  <link rel="canonical" href="http://localhost:4000/articles/2016-01/ReactiveCocoa-Concurrency-Multithreading">
+  <link rel="alternate" type="application/rss+xml" title="Vasilenko.Tech" href="http://localhost:4000/feed.xml" />
+
+  <!-- Icons -->
+  <!-- 16x16 -->
+  <link rel="shortcut icon" href="http://localhost:4000/favicon.ico">
+  <!-- 32x32 -->
+  <link rel="shortcut icon" href="http://localhost:4000/favicon.png">
+</head>
+
+
+<body>
+  <div class="row">
+    <div class="col s12 m3">
+      <div class="table cover">
+        
+
+<div class="cover-card table-cell table-middle">
+  
+  <img src="http://localhost:4000/img/leonids-logo.png" alt="" class="avatar">
+  
+  <a href="http://localhost:4000/" class="author_name">Igor Vasilenko</a>
+  <span class="author_job">iOS Developer at Tinkoff Bank</span>
+  <span class="author_bio mbm">Interested in clean software design</span>
+  <nav class="nav">
+    <ul class="nav-list">
+      <li class="nav-item">
+        <a href="http://localhost:4000/">home</a>
+      </li>
+       
+      <li class="nav-item">
+        <a href="http://localhost:4000/archive/">Archive</a>
+      </li>
+          
+      <li class="nav-item">
+        <a href="http://localhost:4000/categories/">Categories</a>
+      </li>
+           
+    </ul>
+  </nav>
+  <script type="text/javascript">
+  // based on http://stackoverflow.com/a/10300743/280842
+  function gen_mail_to_link(hs, subject) {
+    var lhs,rhs;
+    var p = hs.split('@');
+    lhs = p[0];
+    rhs = p[1];
+    document.write("<a class=\"social-link-item\" target=\"_blank\" href=\"mailto");
+    document.write(":" + lhs + "@");
+    document.write(rhs + "?subject=" + subject + "\"><i class=\"fa fa-fw fa-envelope\"></i><\/a>");
+  }
+</script>
+<div class="social-links">
+  <ul>
+    
+      <li>
+      <script>gen_mail_to_link('devnull.igor@gmail.com', 'Hello from website');</script>
+      </li>
+    
+    <li><a href="http://twitter.com/i_vasilenko" class="social-link-item" target="_blank"><i class="fa fa-fw fa-twitter"></i></a></li>
+    
+    
+    <li><a href="http://linkedin.com/in/ivasilenko" class="social-link-item" target="_blank"><i class="fa fa-fw fa-linkedin"></i></a></li>
+    <li><a href="skype:love-zenit.vasilenko" class="social-link-item" target="_blank"><i class="fa fa-fw fa-skype"></i></a></li>
+    
+    <li><a href="http://instagram.com/ivasilenko" class="social-link-item" target="_blank"><i class="fa fa-fw fa-instagram"></i></a></li>
+    
+    <li><a href="http://github.com/vasilenkoigor" class="social-link-item" target="_blank"><i class="fa fa-fw fa-github"></i></a></li>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </ul>
+</div>
+
+</div>
+
+      </div>
+    </div>
+    <div class="col s12 m9">
+      <div class="post-listing">
+        <a class="btn" href= "http://localhost:4000/" >
+  Home
+</a>
+
+
+
+<div id="post">
+  <header class="post-header">
+    <h1 title="ReactiveCocoa. Concurrency. Multithreading.">ReactiveCocoa. Concurrency. Multithreading.</h1>
+    <span class="post-meta">
+      <span class="post-date">
+        30 JAN 2016
+      </span>
+      •
+      <span class="read-time" title="Estimated read time">
+  
+  
+    3 mins read
+  
+</span>
+
+    </span>
+
+  </header>
+
+  <article class="post-content">
+    <p>Сегодня хотелось бы поговорить о работе с потоками в ReactiveCocoa. Я не буду вдаваться в подробности основ фреймворка и полагаю, что вы уже знакомы с базовыми принципами реактивного программирования в iOS.</p>
+
+<p>Работа с потоками в мобильном приложении наиважнейшая тема и это все знают. Стандарнтыми инструментами для этого, являются GCD или NSOperation. Но при использовании ReactiveCocoa в нашем проекте, все становится несколько иначе. Нет, вам никто не запрещает использовать стандартные инструменты, но зачем? Мы в каждый блок будем пихать GCD? Для этого в ReactiveCocoa придумали весьма удобную реализацию.</p>
+
+<p>Для работы с многопоточностью в ReactiveCocoa существует класс RACScheduler. По сути, это обертка над GCD… и имеет те же самые приоритеты потоков, что и у GCD:</p>
+
+<figure class="highlight"><pre><code class="language-objective-c" data-lang="objective-c">typedef enum : long {
+	RACSchedulerPriorityHigh = DISPATCH_QUEUE_PRIORITY_HIGH,
+	RACSchedulerPriorityDefault = DISPATCH_QUEUE_PRIORITY_DEFAULT,
+	RACSchedulerPriorityLow = DISPATCH_QUEUE_PRIORITY_LOW,
+	RACSchedulerPriorityBackground = DISPATCH_QUEUE_PRIORITY_BACKGROUND,
+} RACSchedulerPriority;</code></pre></figure>
+
+<p>Рассмотрим основные методы RACScheduler, которые могут нам понадобиться при работе с ним:</p>
+
+<p>Из названия, в принципе, становится ясно, что нам возвращается RACScheduler, который будет выполнять работу в главном потоке.</p>
+
+<figure class="highlight"><pre><code class="language-objective-c" data-lang="objective-c">+ (RACScheduler *)mainThreadScheduler;</code></pre></figure>
+
+<p>В данном случае, нам возвращается RACSCheduler с указанным приоритетом и уже не в главном потоке.</p>
+
+<figure class="highlight"><pre><code class="language-objective-c" data-lang="objective-c">+ (RACScheduler *)schedulerWithPriority:(RACSchedulerPriority)priority;</code></pre></figure>
+
+<p>Возвращает RACScheduler c приоритетом RACSchedulerPriorityDefault.</p>
+
+<figure class="highlight"><pre><code class="language-objective-c" data-lang="objective-c">+ (RACScheduler *)scheduler;</code></pre></figure>
+
+<p>Возвращает текущий RACScheduler из текущего NSThread.</p>
+
+<figure class="highlight"><pre><code class="language-objective-c" data-lang="objective-c">+ (RACScheduler *)currentScheduler;</code></pre></figure>
+
+<p>Блок, который RACSCheduler может выполнить где угодно. И к этому мы еще вернемся.</p>
+
+<figure class="highlight"><pre><code class="language-objective-c" data-lang="objective-c">- (RACDisposable *)schedule:(void (^)(void))block;</code></pre></figure>
+
+<p>Далее приведу основные функции для RACSignal, которые могут использоваться нами для управления многопоточностью:
+Данный метод RACSignal, говорит о том, что блоки получения новых значений в subscribeNext/doNext/subscribeError/etc. будут выполняться в том RACSCheduler, который мы вернем.</p>
+
+<figure class="highlight"><pre><code class="language-objective-c" data-lang="objective-c">- (RACSignal *)deliverOn:(RACScheduler *)scheduler</code></pre></figure>
+
+<p>Данный метод RACSignal, говорит о том, в каком RACScheduler будет выполняться блок, созданный при создании подписки (если мы говорим про ReactiveCocoa 2.5, то это: +[RACSignal createSignal:])</p>
+
+<figure class="highlight"><pre><code class="language-objective-c" data-lang="objective-c">- (RACSignal *)subscribeOn:(RACScheduler *)scheduler</code></pre></figure>
+
+<p>Приведу два коротких примера и мы на этом закончим</p>
+
+<p>Создадим простой сигнал:</p>
+
+<figure class="highlight"><pre><code class="language-objective-c" data-lang="objective-c">RACSignal *signal = [RACSignal createSignal:^RACDisposable *(id &lt;RACSubscriber&gt; subscriber) {
+// block executes on other thread with default priority
+        for (NSInteger i = 0; i &lt; 5000; i++) {
+            NSLog(@"LOL");
+            if (i == 5000) {
+            [subscriber sendNext:@(YES)];
+            }
+        }
+        return nil;
+    }];</code></pre></figure>
+
+<p>Очевидно, что при создании подписки на данный сигнал, пока цикл не закончится, то мы не получим ни единого значения. У кого-то, код выполняющийся в этом блоке, будет довольно ресурсоемким. Попробуем разнести по тредам.</p>
+
+<p>Создадим подписку на сигнал и укажем сигналу subscribeOn/deliverOn</p>
+
+<figure class="highlight"><pre><code class="language-objective-c" data-lang="objective-c">[[[signal subscribeOn:[RACScheduler scheduler]]
+                deliverOn:[RACScheduler mainThreadScheduler]] subscribeNext:^(id x) {
+                // block executes on main thread
+}];</code></pre></figure>
+
+<p>В данном случае, как видно по комментариям, значения мы будем получать в главном потоке, где можно, к примеру, обновлять UI. А в блоке создании подписки код будет выполняться в другом потоке, что поможет снизить нагрузку на главный поток.</p>
+
+<p>И последний пример, я покажу вам как из бэкграунд потока запустить код в главном потоке. 
+С GCD это выглядело бы как все уже знают следующим образом:</p>
+
+<figure class="highlight"><pre><code class="language-objective-c" data-lang="objective-c">dispatch_async(dispatch_get_global_queue(0, DISPATCH_QUEUE_PRIORITY_DEFAULT), ^{
+        // do something
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // do something
+        });
+    });</code></pre></figure>
+
+<p>И как это можно реализовать с RACSheduler:
+Как мы помним, при создании подписки на этот сигнал, мы указали, что он будет выполняться не в главном потоке. Но что делать, если в каком то месте, нам все понадобиться выполнить часть кода на главном потоке? Очень просто :) Здесь нам поможет - (RACDisposable *)schedule:(void (^)(void))block;</p>
+
+<figure class="highlight"><pre><code class="language-objective-c" data-lang="objective-c">RACSignal *signal = [RACSignal createSignal:^RACDisposable *(id &lt;RACSubscriber&gt; subscriber) {
+// block executes on other thread with default priority
+        for (NSInteger i = 0; i &lt; 5000; i++) {
+            NSLog(@"LOL");
+            if (i == 5000) {
+            [subscriber sendNext:@(YES)];
+            }
+        }
+        [[RACScheduler mainThreadScheduler] schedule:^(void v) {
+            // do something on main thread
+        }];
+        return nil;
+    }];</code></pre></figure>
+
+<p>На этом все :) Спасибо большое за внимание! И кстати, отличная новость: 
+Состоялся долгожданный релиз RAC4!
+https://github.com/ReactiveCocoa/ReactiveCocoa/releases/tag/v4.0.0</p>
+
+  </article>
+</div>
+
+<div class="share-buttons">
+  <h6>Share on: </h6>
+  <ul>
+    <li>
+      <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/articles/2016-01/ReactiveCocoa-Concurrency-Multithreading" class="twitter btn" title="Share on Twitter"><i class="fa fa-twitter"></i><span> Twitter</span></a>
+    </li>
+    <li>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/articles/2016-01/ReactiveCocoa-Concurrency-Multithreading" class="facebook btn" title="Share on Facebook"><i class="fa fa-facebook"></i><span> Facebook</span></a>
+    </li>
+    <li>
+      <a href="https://plus.google.com/share?url=http://localhost:4000/articles/2016-01/ReactiveCocoa-Concurrency-Multithreading" class="google-plus btn" title="Share on Google Plus"><i class="fa fa-google-plus"></i><span> Google+</span></a>
+    </li>
+    <li>
+      <a href="https://news.ycombinator.com/submitlink?u=http://localhost:4000/articles/2016-01/ReactiveCocoa-Concurrency-Multithreading" class="hacker-news btn" title="Share on Hacker News"><i class="fa fa-hacker-news"></i><span> Hacker News</span></a>
+    </li>
+    <li>
+      <a href="https://www.reddit.com/submit?url=http://localhost:4000/articles/2016-01/ReactiveCocoa-Concurrency-Multithreading" class="reddit btn" title="Share on Reddit"><i class="fa fa-reddit"></i><span> Reddit</span></a>
+    </li>
+  </ul>
+</div><!-- end share-buttons -->
+
+
+
+        <footer>
+  &copy; 2017 Igor Vasilenko.
+</footer>
+
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="http://localhost:4000/js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="http://localhost:4000/js/main.js"></script>
+
+
+</body>
+</html>

@@ -1,11 +1,12 @@
 ---
 layout: post
-title:  "Code-review"
-date:   2016-09-01 00:00:00
-categories: processes
+title: Code-review
+excerpt: "В данном посте хотелось бы поговорить о прекрасном слове Code-review и рассказать как он построен в команде YOTA."
+categories: [code-review, processes]
+comments: true
 ---
 
-В данном посте хотелось бы поговорить о прекрасном слове "Code-review" и рассказать как он построен в нашей команде. 
+В данном посте хотелось бы поговорить о прекрасном слове "Code-review" и рассказать как он построен в команде YOTA. 
 
 <b>Немного лирики</b>
 ![enter image description here](https://habrastorage.org/files/8ee/4be/9c7/8ee4be9c7cd544d8a34890ba76cb1344.png)

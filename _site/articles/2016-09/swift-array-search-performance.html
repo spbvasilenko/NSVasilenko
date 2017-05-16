@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Swift Array search performance</title>
+  <meta name="description" content="In this week, I'm interested in how to have fun fast search algorithms in the array in the Swift. And he came to a big surprise!">
+
+  <!-- CSS files -->
+  <link rel="stylesheet" href="http://localhost:4000/css/font-awesome.min.css">
+  <link rel="stylesheet" href="http://localhost:4000/css/main.css">
+
+  <link rel="canonical" href="http://localhost:4000/articles/2016-09/swift-array-search-performance">
+  <link rel="alternate" type="application/rss+xml" title="Vasilenko.Tech" href="http://localhost:4000/feed.xml" />
+
+  <!-- Icons -->
+  <!-- 16x16 -->
+  <link rel="shortcut icon" href="http://localhost:4000/favicon.ico">
+  <!-- 32x32 -->
+  <link rel="shortcut icon" href="http://localhost:4000/favicon.png">
+</head>
+
+
+<body>
+  <div class="row">
+    <div class="col s12 m3">
+      <div class="table cover">
+        
+
+<div class="cover-card table-cell table-middle">
+  
+  <img src="http://localhost:4000/img/leonids-logo.png" alt="" class="avatar">
+  
+  <a href="http://localhost:4000/" class="author_name">Igor Vasilenko</a>
+  <span class="author_job">iOS Developer at Tinkoff Bank</span>
+  <span class="author_bio mbm">Interested in clean software design</span>
+  <nav class="nav">
+    <ul class="nav-list">
+      <li class="nav-item">
+        <a href="http://localhost:4000/">home</a>
+      </li>
+       
+      <li class="nav-item">
+        <a href="http://localhost:4000/archive/">Archive</a>
+      </li>
+          
+      <li class="nav-item">
+        <a href="http://localhost:4000/categories/">Categories</a>
+      </li>
+           
+    </ul>
+  </nav>
+  <script type="text/javascript">
+  // based on http://stackoverflow.com/a/10300743/280842
+  function gen_mail_to_link(hs, subject) {
+    var lhs,rhs;
+    var p = hs.split('@');
+    lhs = p[0];
+    rhs = p[1];
+    document.write("<a class=\"social-link-item\" target=\"_blank\" href=\"mailto");
+    document.write(":" + lhs + "@");
+    document.write(rhs + "?subject=" + subject + "\"><i class=\"fa fa-fw fa-envelope\"></i><\/a>");
+  }
+</script>
+<div class="social-links">
+  <ul>
+    
+      <li>
+      <script>gen_mail_to_link('devnull.igor@gmail.com', 'Hello from website');</script>
+      </li>
+    
+    <li><a href="http://twitter.com/i_vasilenko" class="social-link-item" target="_blank"><i class="fa fa-fw fa-twitter"></i></a></li>
+    
+    
+    <li><a href="http://linkedin.com/in/ivasilenko" class="social-link-item" target="_blank"><i class="fa fa-fw fa-linkedin"></i></a></li>
+    <li><a href="skype:love-zenit.vasilenko" class="social-link-item" target="_blank"><i class="fa fa-fw fa-skype"></i></a></li>
+    
+    <li><a href="http://instagram.com/ivasilenko" class="social-link-item" target="_blank"><i class="fa fa-fw fa-instagram"></i></a></li>
+    
+    <li><a href="http://github.com/vasilenkoigor" class="social-link-item" target="_blank"><i class="fa fa-fw fa-github"></i></a></li>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </ul>
+</div>
+
+</div>
+
+      </div>
+    </div>
+    <div class="col s12 m9">
+      <div class="post-listing">
+        <a class="btn" href= "http://localhost:4000/" >
+  Home
+</a>
+
+
+
+<div id="post">
+  <header class="post-header">
+    <h1 title="Swift Array search performance">Swift Array search performance</h1>
+    <span class="post-meta">
+      <span class="post-date">
+        9 SEP 2016
+      </span>
+      •
+      <span class="read-time" title="Estimated read time">
+  
+  
+    1 min read
+  
+</span>
+
+    </span>
+
+  </header>
+
+  <article class="post-content">
+    <p>In this week, I’m interested in how to have fun fast search algorithms in the array in the Swift. And he came to a big surprise!</p>
+
+<p><b>Story</b></p>
+
+<p>Right now, for Array implemented <code class="highlighter-rouge">array.contains(element)</code> and <code class="highlighter-rouge">array.indexOf(element)</code> for searching in an array. Both of these methods iterate over all elements in the array, starting at index 0, until they find a match. In Big O notation, the methods’ performance characteristic is O(n). This is usually not a problem for small arrays with only a few dozen elements, but we have array of 100000000 elements? We want to look for a faster search algorithm.</p>
+
+<p>In the Swift, Apple doesn’t implemented binary search for arrays yet! It was a big suprise for me!</p>
+
+<p>If the array is sorted by the search key, binary search can give you a huge boost in performance. By comparing the middle element in the array to the search item, the algorithm effectively halves the number of elements it has to search trough with each iteration. Binary search has O(log n) performance. What does this mean in practice? Searching a sorted array of 100,000 elements using binary search would require at most 17 comparisons compared to the 50,000 comparisons a naive linear search would take on average.</p>
+
+<p><b>Measure performance</b></p>
+
+<p>Today, I make example project for measure performance beetween function indexOf in the Array with 100000000 elements and with my simple implementation binary search.</p>
+
+<p>So, finding the last element in sorted array with 100000000 elements takes:</p>
+
+<ul>
+  <li>
+    <p>Standard <code class="highlighter-rouge">indexOf()</code> search - 3 sec average</p>
+  </li>
+  <li>
+    <p>Binary search - 1.5 sec average</p>
+  </li>
+</ul>
+
+<p>Not a bad difference, right?!</p>
+
+<p>You can find my performance test in <a href="https://github.com/vasilenkoigor/SwiftArraySearchMeasureTest">my repo<a></a></a></p>
+
+<p><b>Swift evolution proposal</b></p>
+
+<p>Also, I do not understand why Apple has not yet implemented a binary search for the array in the Swift. In this regard, the <a href="https://github.com/apple/swift-evolution/pull/516">proposal<a></a> I made in Swift evolution. But PR was closed because this is out of scope for Swift 4 stage 1.</a></p>
+
+<p>Good link: http://bigocheatsheet.com</p>
+
+  </article>
+</div>
+
+<div class="share-buttons">
+  <h6>Share on: </h6>
+  <ul>
+    <li>
+      <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/articles/2016-09/swift-array-search-performance" class="twitter btn" title="Share on Twitter"><i class="fa fa-twitter"></i><span> Twitter</span></a>
+    </li>
+    <li>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/articles/2016-09/swift-array-search-performance" class="facebook btn" title="Share on Facebook"><i class="fa fa-facebook"></i><span> Facebook</span></a>
+    </li>
+    <li>
+      <a href="https://plus.google.com/share?url=http://localhost:4000/articles/2016-09/swift-array-search-performance" class="google-plus btn" title="Share on Google Plus"><i class="fa fa-google-plus"></i><span> Google+</span></a>
+    </li>
+    <li>
+      <a href="https://news.ycombinator.com/submitlink?u=http://localhost:4000/articles/2016-09/swift-array-search-performance" class="hacker-news btn" title="Share on Hacker News"><i class="fa fa-hacker-news"></i><span> Hacker News</span></a>
+    </li>
+    <li>
+      <a href="https://www.reddit.com/submit?url=http://localhost:4000/articles/2016-09/swift-array-search-performance" class="reddit btn" title="Share on Reddit"><i class="fa fa-reddit"></i><span> Reddit</span></a>
+    </li>
+  </ul>
+</div><!-- end share-buttons -->
+
+
+
+        <footer>
+  &copy; 2017 Igor Vasilenko.
+</footer>
+
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="http://localhost:4000/js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="http://localhost:4000/js/main.js"></script>
+
+
+</body>
+</html>

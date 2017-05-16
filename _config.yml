@@ -1,16 +1,70 @@
-name: Igor Vasilenko
-description: iOS Developer @CleverPumpkin
-
-markdown: kramdown
-highlighter: pygments
-logo: true
-paginate: 15
+#
+###################################
+# Site wide configuration
+####################################
+#
+title: Vasilenko.Tech
+email: devnull.igor@gmail.com
+description: iOS Blog
 url: "https://vasilenko.tech"
 baseurl:
-domain_name: 'vasilenko.tech'
-gems: [jekyll-paginate]
-permalink: /:title
 
-# Details for the RSS feed generator
-url:            'http://igorvasilenko.me/'
-author:         'Igor Vasilenko'
+
+#
+###################################
+# Jekyll configuration
+####################################
+#
+timezone:          Europe/Moscow
+markdown:          kramdown
+highlighter:       rouge
+excerpt_separator: <!--more-->
+permalink:         /articles/:year-:month/:title
+
+kramdown:
+  auto_ids: true
+  footnote_nr: 1
+  entity_output: as_char
+  toc_levels: 1..6
+  enable_coderay: false
+
+#
+###################################
+# Site Owner configuration
+####################################
+#
+owner:
+  name: Igor Vasilenko
+  avatar: leonids-logo.png
+  job: "iOS Developer at Tinkoff Bank"
+  bio: "Interested in clean software design"
+  email: devnull.igor@gmail.com
+  disqus-shortname:
+  twitter: i_vasilenko
+  facebook: #username
+  google:
+    plus: #username
+    analytics:
+    verify:
+    ad-client:
+    ad-slot:
+  bing-verify:
+  github: vasilenkoigor
+  gitlab: #username
+  stackoverflow: #123456/username   from a "http://stackoverflow.com/users/123456/username" link
+  linkedin: ivasilenko
+  skype: love-zenit.vasilenko
+  xing: #username
+  instagram: ivasilenko
+  lastfm: #username
+  tumblr: #username
+  pinterest: #username
+  foursquare: #username
+  steam: #username
+  dribbble: #username
+  youtube: #username
+  soundcloud: #username
+  weibo: #username
+  flickr: #username
+  500px: #username
+  codepen: #username

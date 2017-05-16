@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Разработка iOS приложений с VIPER</title>
+  <meta name="description" content="В последнее время я стал много слышать об архитектуре под названием VIPER. Я настолько заинтересовался этой темой, что решил изучить данную тему поглубже и р...">
+
+  <!-- CSS files -->
+  <link rel="stylesheet" href="http://localhost:4000/css/font-awesome.min.css">
+  <link rel="stylesheet" href="http://localhost:4000/css/main.css">
+
+  <link rel="canonical" href="http://localhost:4000/articles/2015-03/viper-for-ios-development">
+  <link rel="alternate" type="application/rss+xml" title="Vasilenko.Tech" href="http://localhost:4000/feed.xml" />
+
+  <!-- Icons -->
+  <!-- 16x16 -->
+  <link rel="shortcut icon" href="http://localhost:4000/favicon.ico">
+  <!-- 32x32 -->
+  <link rel="shortcut icon" href="http://localhost:4000/favicon.png">
+</head>
+
+
+<body>
+  <div class="row">
+    <div class="col s12 m3">
+      <div class="table cover">
+        
+
+<div class="cover-card table-cell table-middle">
+  
+  <img src="http://localhost:4000/img/leonids-logo.png" alt="" class="avatar">
+  
+  <a href="http://localhost:4000/" class="author_name">Igor Vasilenko</a>
+  <span class="author_job">iOS Developer at Tinkoff Bank</span>
+  <span class="author_bio mbm">Interested in clean software design</span>
+  <nav class="nav">
+    <ul class="nav-list">
+      <li class="nav-item">
+        <a href="http://localhost:4000/">home</a>
+      </li>
+       
+      <li class="nav-item">
+        <a href="http://localhost:4000/archive/">Archive</a>
+      </li>
+          
+      <li class="nav-item">
+        <a href="http://localhost:4000/categories/">Categories</a>
+      </li>
+           
+    </ul>
+  </nav>
+  <script type="text/javascript">
+  // based on http://stackoverflow.com/a/10300743/280842
+  function gen_mail_to_link(hs, subject) {
+    var lhs,rhs;
+    var p = hs.split('@');
+    lhs = p[0];
+    rhs = p[1];
+    document.write("<a class=\"social-link-item\" target=\"_blank\" href=\"mailto");
+    document.write(":" + lhs + "@");
+    document.write(rhs + "?subject=" + subject + "\"><i class=\"fa fa-fw fa-envelope\"></i><\/a>");
+  }
+</script>
+<div class="social-links">
+  <ul>
+    
+      <li>
+      <script>gen_mail_to_link('devnull.igor@gmail.com', 'Hello from website');</script>
+      </li>
+    
+    <li><a href="http://twitter.com/i_vasilenko" class="social-link-item" target="_blank"><i class="fa fa-fw fa-twitter"></i></a></li>
+    
+    
+    <li><a href="http://linkedin.com/in/ivasilenko" class="social-link-item" target="_blank"><i class="fa fa-fw fa-linkedin"></i></a></li>
+    <li><a href="skype:love-zenit.vasilenko" class="social-link-item" target="_blank"><i class="fa fa-fw fa-skype"></i></a></li>
+    
+    <li><a href="http://instagram.com/ivasilenko" class="social-link-item" target="_blank"><i class="fa fa-fw fa-instagram"></i></a></li>
+    
+    <li><a href="http://github.com/vasilenkoigor" class="social-link-item" target="_blank"><i class="fa fa-fw fa-github"></i></a></li>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </ul>
+</div>
+
+</div>
+
+      </div>
+    </div>
+    <div class="col s12 m9">
+      <div class="post-listing">
+        <a class="btn" href= "http://localhost:4000/" >
+  Home
+</a>
+
+
+
+<div id="post">
+  <header class="post-header">
+    <h1 title="Разработка iOS приложений с VIPER">Разработка iOS приложений с VIPER</h1>
+    <span class="post-meta">
+      <span class="post-date">
+        30 MAR 2015
+      </span>
+      •
+      <span class="read-time" title="Estimated read time">
+  
+  
+    3 mins read
+  
+</span>
+
+    </span>
+
+  </header>
+
+  <article class="post-content">
+    <p><b>Что такое VIPER?</b></p>
+
+<p>VIPER применяется в iOS приложениях, построенных на так называемой <a href="http://blog.8thlight.com/uncle-bob/2012/08/13/the-clean-architecture.html">Clean Architecture</a>. Мир VIPER основан на View, Interactor, Presenter, Entity, и Routing. Clean Architecture делит логику приложения на отдельные уровни ответственности, которые показаны ниже.
+<img src="http://habrastorage.org/getpro/habr/post_images/37e/86b/8fb/37e86b8fb8cc2e81e54bf6cb409d638d.jpg" alt="image" />
+Рассмотрим главные части архитектуры подробнее:</p>
+
+<p><b>View </b>- Отображает то, что ему говорит Presenter и возвращает обратно данные тому же Presenter, введенные пользователем.</p>
+
+<p><b>Interactor</b>- Включает в себя всю бизнес-логику.</p>
+
+<p><b>Presenter</b>- Включает в себя View логику подготовки данных для отображения и реагирует на обратные действия пользователя.</p>
+
+<p><b>Entity</b>- Включает в себя базовую модель объектов, которые использует Interactor.</p>
+
+<p><b>Routing</b>- Отвечает за логику навигации, какие экраны показывать и в каком порядке.</p>
+
+<p>Это разделение так же соответствует принципу “единоличная ответственность” или <a href="http://www.objectmentor.com/resources/articles/srp.pdf">Single Responsibility Principle</a>. То есть Interactor можно представить как бизнес-аналитика, Presenter взаимодействует с дизайнером, а View отвечает за визуального-дизайнера.</p>
+
+<p>Ниже приведена схема, где показано как отдельные части архитектуры связаны между собой:
+<img src="http://habrastorage.org/getpro/habr/post_images/6ec/b19/1c3/6ecb191c3ea7a1136b1c9ace02a0e73f.png" alt="image" /></p>
+
+<p><b>Interactor</b></p>
+
+<p>Представляет собой как единственный экземпляр в iOS приложении. Он включает в себя работу бизнес-логику манипулирования моделей объектов и не выходит за другие рамки задач. Работать с Interactor довольно удобно, потому что он может быть использован как и в iOS приложении, так и в OS X.</p>
+
+<figure class="highlight"><pre><code class="language-objectivec" data-lang="objectivec">- (void)findUpcomingItems
+{
+    __weak typeof(self) welf = self;
+    NSDate* today = [self.clock today];
+    NSDate* endOfNextWeek = [[NSCalendar currentCalendar] dateForEndOfFollowingWeekWithDate:today];
+    [self.dataManager todoItemsBetweenStartDate:today endDate:endOfNextWeek completionBlock:^(NSArray* todoItems) {
+        [welf.output foundUpcomingItems:[welf upcomingItemsFromToDoItems:todoItems]];
+    }];
+}</code></pre></figure>
+
+<p><b>Entity</b></p>
+
+<p>Объекты моделей, которые обрабатывает Interactor. Сущности могут взаимодействовать только с Interactor. Interactor никогда не передает сущности уровню отображения (т.е. Presenter). Сущности так же склонны к термину PONSOs, и если вы используете Core Data, вы нуждаетесь в управляемых объектах ваших данных. Interactors не должны работать с NSManagedObjects.</p>
+
+<figure class="highlight"><pre><code class="language-objectivec" data-lang="objectivec">@interface VTDTodoItem : NSObject
+
+@property (nonatomic, strong)   NSDate*     dueDate;
+@property (nonatomic, copy)     NSString*   name;
+
++ (instancetype)todoItemWithDueDate:(NSDate*)dueDate name:(NSString*)name;
+
+@end</code></pre></figure>
+
+<p><b>Presenter</b></p>
+
+<p>Presenter так же придерживается POSNO и содержит логику управления UI. Он знает когда показывать пользовательский интерфейс. Собирает входящие сигналы жестов пользователя и может обновлять UI, так же посылает реквесты Interactor’у. Presenter так же получает результаты из Interactor и преобразует результаты введенные из различных форм UI. Entities никогда не передаются из Interactor Presenter’у. Presenter может только подготавливать данные для отображения в UI.</p>
+
+<figure class="highlight"><pre><code class="language-objectivec" data-lang="objectivec">- (void)addNewEntry
+{
+    [self.listWireframe presentAddInterface];
+}
+
+- (void)foundUpcomingItems:(NSArray*)upcomingItems
+{
+    if ([upcomingItems count] == 0)
+    {
+        [self.userInterface showNoContentMessage];
+    }
+    else
+    {
+        [self updateUserInterfaceWithUpcomingItems:upcomingItems];
+    }
+}</code></pre></figure>
+
+<p><b>View</b></p>
+
+<p>View пассивен. Он ожидает пока Presenter ему не отдаст данные для отображения, при этом, никогда не просит его об этом. Методы, определенные во View должны позволять Presenter общаться с ним на уровне высокой абстракции. Presenter не знает об существовании таких элементов UI как UILabel, UIButton и так далее. Presenter знает только контенте и когда он должен быть отображен, а View определяет как его отобразить.</p>
+
+<figure class="highlight"><pre><code class="language-objectivec" data-lang="objectivec">@protocol VTDAddViewInterface &lt;NSObject&gt;
+
+- (void)setEntryName:(NSString *)name;
+- (void)setEntryDueDate:(NSDate *)date;
+
+@end</code></pre></figure>
+
+<p><b>Routing</b></p>
+
+<p>В VIPER ответственность Routing разделяется на два объекта: Presenter и wireframe. Wireframe - объект, который владеет UIWindow, UINavigationController, UIViewController и так далее. Он отвечает за создание View/ViewController и установку окна. 
+Так как Presenter содержит логику на реакции пользователя, Presenter знает когда переходить на другой экран и с какого экрана. Между тем, wireframe знает как сделать эту навигацию. Значит, что Presenter будет использовать wireframe для выполнения навигаций.</p>
+
+<figure class="highlight"><pre><code class="language-objectivec" data-lang="objectivec">@implementation VTDAddWireframe
+
+- (void)presentAddInterfaceFromViewController:(UIViewController *)viewController 
+{
+    VTDAddViewController *addViewController = [self addViewController];
+    addViewController.eventHandler = self.addPresenter;
+    addViewController.modalPresentationStyle = UIModalPresentationCustom;
+    addViewController.transitioningDelegate = self;
+
+    [viewController presentViewController:addViewController animated:YES completion:nil];
+
+    self.presentedViewController = viewController;
+}
+
+#pragma mark - UIViewControllerTransitioningDelegate Methods
+
+- (id&lt;UIViewControllerAnimatedTransitioning&gt;)animationControllerForDismissedController:(UIViewController *)dismissed 
+{
+    return [[VTDAddDismissalTransition alloc] init];
+}
+
+- (id&lt;UIViewControllerAnimatedTransitioning&gt;)animationControllerForPresentedController:(UIViewController *)presented
+                                                                  presentingController:(UIViewController *)presenting
+                                                                      sourceController:(UIViewController *)source 
+{
+    return [[VTDAddPresentationTransition alloc] init];
+}
+
+@end</code></pre></figure>
+
+<p><b>Подытожим</b></p>
+
+<p>Надеюсь, я помог вам немного больше разобраться в этой архитектуре и почему бы не испробовать ее в следующем вашем приложении, которое вы собираетесь написать?
+Всем спасибо за внимание!</p>
+
+  </article>
+</div>
+
+<div class="share-buttons">
+  <h6>Share on: </h6>
+  <ul>
+    <li>
+      <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/articles/2015-03/viper-for-ios-development" class="twitter btn" title="Share on Twitter"><i class="fa fa-twitter"></i><span> Twitter</span></a>
+    </li>
+    <li>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/articles/2015-03/viper-for-ios-development" class="facebook btn" title="Share on Facebook"><i class="fa fa-facebook"></i><span> Facebook</span></a>
+    </li>
+    <li>
+      <a href="https://plus.google.com/share?url=http://localhost:4000/articles/2015-03/viper-for-ios-development" class="google-plus btn" title="Share on Google Plus"><i class="fa fa-google-plus"></i><span> Google+</span></a>
+    </li>
+    <li>
+      <a href="https://news.ycombinator.com/submitlink?u=http://localhost:4000/articles/2015-03/viper-for-ios-development" class="hacker-news btn" title="Share on Hacker News"><i class="fa fa-hacker-news"></i><span> Hacker News</span></a>
+    </li>
+    <li>
+      <a href="https://www.reddit.com/submit?url=http://localhost:4000/articles/2015-03/viper-for-ios-development" class="reddit btn" title="Share on Reddit"><i class="fa fa-reddit"></i><span> Reddit</span></a>
+    </li>
+  </ul>
+</div><!-- end share-buttons -->
+
+
+
+        <footer>
+  &copy; 2017 Igor Vasilenko.
+</footer>
+
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="http://localhost:4000/js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="http://localhost:4000/js/main.js"></script>
+
+
+</body>
+</html>

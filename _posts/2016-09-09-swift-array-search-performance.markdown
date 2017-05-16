@@ -1,11 +1,12 @@
 ---
 layout: post
-title:  "Swift Array search performance"
-date:   2016-09-09 00:00:00
-categories: swift ios performance algorithms
+title: Swift Array search performance
+excerpt: "In this week, I'm interested in how to have fun fast search algorithms in the array in the Swift. And he came to a big surprise!"
+categories: [swift, algorithms, performance]
+comments: true
 ---
 
-In this week , I'm interested in how to have fun fast search algorithms in the array in the Swift. And he came to a big surprise!
+In this week, I'm interested in how to have fun fast search algorithms in the array in the Swift. And he came to a big surprise!
 
 <b>Story</b>
 

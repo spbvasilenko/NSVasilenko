@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>LLDB. Использование expr и переменных</title>
+  <meta name="description" content="Давненько не писал ничего интересного и решил исправить ситуацию. Люблю делиться тем, чего сам совсем недавно узнал и попробовал на практике. И сегодня мы по...">
+
+  <!-- CSS files -->
+  <link rel="stylesheet" href="http://localhost:4000/css/font-awesome.min.css">
+  <link rel="stylesheet" href="http://localhost:4000/css/main.css">
+
+  <link rel="canonical" href="http://localhost:4000/articles/2016-01/LLDB-using-expr-and-variables">
+  <link rel="alternate" type="application/rss+xml" title="Vasilenko.Tech" href="http://localhost:4000/feed.xml" />
+
+  <!-- Icons -->
+  <!-- 16x16 -->
+  <link rel="shortcut icon" href="http://localhost:4000/favicon.ico">
+  <!-- 32x32 -->
+  <link rel="shortcut icon" href="http://localhost:4000/favicon.png">
+</head>
+
+
+<body>
+  <div class="row">
+    <div class="col s12 m3">
+      <div class="table cover">
+        
+
+<div class="cover-card table-cell table-middle">
+  
+  <img src="http://localhost:4000/img/leonids-logo.png" alt="" class="avatar">
+  
+  <a href="http://localhost:4000/" class="author_name">Igor Vasilenko</a>
+  <span class="author_job">iOS Developer at Tinkoff Bank</span>
+  <span class="author_bio mbm">Interested in clean software design</span>
+  <nav class="nav">
+    <ul class="nav-list">
+      <li class="nav-item">
+        <a href="http://localhost:4000/">home</a>
+      </li>
+       
+      <li class="nav-item">
+        <a href="http://localhost:4000/archive/">Archive</a>
+      </li>
+          
+      <li class="nav-item">
+        <a href="http://localhost:4000/categories/">Categories</a>
+      </li>
+           
+    </ul>
+  </nav>
+  <script type="text/javascript">
+  // based on http://stackoverflow.com/a/10300743/280842
+  function gen_mail_to_link(hs, subject) {
+    var lhs,rhs;
+    var p = hs.split('@');
+    lhs = p[0];
+    rhs = p[1];
+    document.write("<a class=\"social-link-item\" target=\"_blank\" href=\"mailto");
+    document.write(":" + lhs + "@");
+    document.write(rhs + "?subject=" + subject + "\"><i class=\"fa fa-fw fa-envelope\"></i><\/a>");
+  }
+</script>
+<div class="social-links">
+  <ul>
+    
+      <li>
+      <script>gen_mail_to_link('devnull.igor@gmail.com', 'Hello from website');</script>
+      </li>
+    
+    <li><a href="http://twitter.com/i_vasilenko" class="social-link-item" target="_blank"><i class="fa fa-fw fa-twitter"></i></a></li>
+    
+    
+    <li><a href="http://linkedin.com/in/ivasilenko" class="social-link-item" target="_blank"><i class="fa fa-fw fa-linkedin"></i></a></li>
+    <li><a href="skype:love-zenit.vasilenko" class="social-link-item" target="_blank"><i class="fa fa-fw fa-skype"></i></a></li>
+    
+    <li><a href="http://instagram.com/ivasilenko" class="social-link-item" target="_blank"><i class="fa fa-fw fa-instagram"></i></a></li>
+    
+    <li><a href="http://github.com/vasilenkoigor" class="social-link-item" target="_blank"><i class="fa fa-fw fa-github"></i></a></li>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </ul>
+</div>
+
+</div>
+
+      </div>
+    </div>
+    <div class="col s12 m9">
+      <div class="post-listing">
+        <a class="btn" href= "http://localhost:4000/" >
+  Home
+</a>
+
+
+
+<div id="post">
+  <header class="post-header">
+    <h1 title="LLDB. Использование expr и переменных">LLDB. Использование expr и переменных</h1>
+    <span class="post-meta">
+      <span class="post-date">
+        22 JAN 2016
+      </span>
+      •
+      <span class="read-time" title="Estimated read time">
+  
+  
+    2 mins read
+  
+</span>
+
+    </span>
+
+  </header>
+
+  <article class="post-content">
+    <p>Давненько не писал ничего интересного и решил исправить ситуацию. Люблю делиться тем, чего сам совсем недавно узнал и попробовал на практике. И сегодня мы поговорим об LLDB в Xcode, а в частности про команду expr.</p>
+
+<p>Как часто мы тестируем какие-либо кейсы бизнес-логики в наших приложениях? Как часто мы хардкодим ветки if, только для того, чтобы зайти в эту ветку и посмотреть поведение приложения? И как часто, мы перекомпилируем наш проект? Очень огромное количество раз!</p>
+
+<p>В этом случае нам может помочь как раз команда expr, если поставить breakepoint в нужном вам месте кода. Приведу реальный кейс:</p>
+
+<p>В контроллере у нас лежит какая-либо UIView, при переходе в этот контроллер, мы хотим посмотреть на UIView в разных состояниях, к примеру разного цвета. Для того, чтобы это сделать, вы, наверное, каждый раз меняли цвет у view и пересобирали проект. Но можно это сделать гораздо быстрее и проще. Достаточно поставить брейкпоинт во viewDidLoad и выполнить в LLDB консоли следущую команду:</p>
+
+<figure class="highlight"><pre><code class="language-objective-c" data-lang="objective-c">expr self.view.backgroundColor = [UIColor blueColor];</code></pre></figure>
+
+<p>затем</p>
+
+<figure class="highlight"><pre><code class="language-objective-c" data-lang="objective-c">continue</code></pre></figure>
+
+<p>В конечном результате мы меняем цвет нашей view буквально на лету! Хотя, буквально сейчас узнал еще от друга еще один способ менять свойства UI эелементов. Это найти во UI дебаггере нашу view, скопировать ее адрес и уже используя адрес модифицировать вьюху. Но команда expr умеет гораздо больше!</p>
+
+<p>Двигаемся дальше.
+Приведу еще один пример, нечто гораздо больше. Снова ставим брэйкпоинт во viewDidLoad в каком либо контроллере и выполним команду:</p>
+
+<figure class="highlight"><pre><code class="language-objective-c" data-lang="objective-c">[self prepareForSegue:&lt;#(nonnull UIStoryboardSegue *)#&gt; sender:&lt;#(nullable id)#&gt;]</code></pre></figure>
+
+<p>затем</p>
+
+<figure class="highlight"><pre><code class="language-objective-c" data-lang="objective-c">continue</code></pre></figure>
+
+<p>После этого нас перекинет на тот экран, который мы указали :) Впечатляет, не правда ли?</p>
+
+<p>Следующий пример. У нас есть несколько кейсов, выполняющих разные действия, точнее какой-нибудь switch или ветки с if/else.
+Опять же, для того, чтобы зайти насильно в какой либо case или ветку if мы будем хардкодить в коде и пересобирать проект? Не нужно!
+Снова ставим breakpoint, допустим, перед выполнением swith или начало ветки if.</p>
+
+<figure class="highlight"><pre><code class="language-objective-c" data-lang="objective-c">if (self.dataIsReady) {
+    // do something        
+  } else {
+    // do something                
+  }</code></pre></figure>
+
+<p>Представим, что dataIsReady у нас будет NO и мы это знаем.
+Выполним следущее после того как мы попадем в брейкпоинт:</p>
+
+<figure class="highlight"><pre><code class="language-objective-c" data-lang="objective-c">expr self.dataIsReady = YES</code></pre></figure>
+
+<p>затем</p>
+
+<figure class="highlight"><pre><code class="language-objective-c" data-lang="objective-c">continue</code></pre></figure>
+
+<p>После этого, мы переходим в ту ветку if, которая нам нужна :)</p>
+
+<p>Приведу следущую возможность команды expr. Выполнение методов и создание переменных.</p>
+
+<p>Выводим в лог сообщение:</p>
+
+<figure class="highlight"><pre><code class="language-objective-c" data-lang="objective-c">expr (void) NSLog(@"hello world!")</code></pre></figure>
+
+<p>Проверяем массив на содержание объекта:</p>
+
+<figure class="highlight"><pre><code class="language-objective-c" data-lang="objective-c">expr (BOOL) [self.myArray containsObject:@“CarKeys"]</code></pre></figure>
+
+<p>Распечатываем frame нашей view:</p>
+
+<figure class="highlight"><pre><code class="language-objective-c" data-lang="objective-c">expr -- (CGRect) [self.view frame]</code></pre></figure>
+
+<p>Стоит отметить “–” указывает, что мы хотим выполнить фактическую команду.</p>
+
+<p>Создание переменных осуществляется следующим способом:</p>
+
+<figure class="highlight"><pre><code class="language-objective-c" data-lang="objective-c">expr int $meaningOfLife = 42
+expr 100 + $meaningOfLife
+(int) $0 = 142 
+(lldb) p $0 + 200 (int) 
+$1 = 24</code></pre></figure>
+
+<p>Ключевым символом создания переменной является “$”.</p>
+
+<p>И последний пример. Пишем и выполняем код на лету:</p>
+
+<figure class="highlight"><pre><code class="language-objective-c" data-lang="objective-c">(lldb) expr NSString * $json = [self fetchRemoteData]; 
+(lldb) expr NSData * $data = [$json dataUsingEncoding:4]
+(lldb) expr NSDictionary * $parsedJson = [NSJSONSerialization JSONObjectWithData: $data options:0 error:NULL];
+(lldb) po parsedData
+{ username : Brian, password : 1234 }</code></pre></figure>
+
+<p>На этом все. Надеюсь вам пригодится данная фича LLDB и вы будете ее активно использовать. Спасибо за внимание! :)</p>
+
+  </article>
+</div>
+
+<div class="share-buttons">
+  <h6>Share on: </h6>
+  <ul>
+    <li>
+      <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/articles/2016-01/LLDB-using-expr-and-variables" class="twitter btn" title="Share on Twitter"><i class="fa fa-twitter"></i><span> Twitter</span></a>
+    </li>
+    <li>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/articles/2016-01/LLDB-using-expr-and-variables" class="facebook btn" title="Share on Facebook"><i class="fa fa-facebook"></i><span> Facebook</span></a>
+    </li>
+    <li>
+      <a href="https://plus.google.com/share?url=http://localhost:4000/articles/2016-01/LLDB-using-expr-and-variables" class="google-plus btn" title="Share on Google Plus"><i class="fa fa-google-plus"></i><span> Google+</span></a>
+    </li>
+    <li>
+      <a href="https://news.ycombinator.com/submitlink?u=http://localhost:4000/articles/2016-01/LLDB-using-expr-and-variables" class="hacker-news btn" title="Share on Hacker News"><i class="fa fa-hacker-news"></i><span> Hacker News</span></a>
+    </li>
+    <li>
+      <a href="https://www.reddit.com/submit?url=http://localhost:4000/articles/2016-01/LLDB-using-expr-and-variables" class="reddit btn" title="Share on Reddit"><i class="fa fa-reddit"></i><span> Reddit</span></a>
+    </li>
+  </ul>
+</div><!-- end share-buttons -->
+
+
+
+        <footer>
+  &copy; 2017 Igor Vasilenko.
+</footer>
+
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="http://localhost:4000/js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="http://localhost:4000/js/main.js"></script>
+
+
+</body>
+</html>
