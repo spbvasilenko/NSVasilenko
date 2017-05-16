@@ -7,7 +7,7 @@ logo: true
 paginate: 15
 url: "https://vasilenko.tech"
 baseurl:
-domain_name: 'igorvasilenko.me'
+domain_name: 'vasilenko.tech'
 gems: [jekyll-paginate]
 permalink: /:title
 
