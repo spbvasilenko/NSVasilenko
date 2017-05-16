@@ -5,7 +5,8 @@ markdown: kramdown
 highlighter: pygments
 logo: true
 paginate: 15
-baseurl: /
+url: "https://vasilenko.tech"
+baseurl:
 domain_name: 'igorvasilenko.me'
 gems: [jekyll-paginate]
 permalink: /:title
