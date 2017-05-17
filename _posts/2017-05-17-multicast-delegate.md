@@ -23,15 +23,15 @@ Secondly, as our multicast delegate will store weak references to the delegates?
 
 So let's start!
 
-- Create a generic class MulticastDelegate, which has the property of delegates of type NSHashTable:
+<b>Create a generic class MulticastDelegate, which has the property of delegates of type NSHashTable:</b>
 
 {% highlight swift %}
 class MulticastDelegate<T> {
-	private let delegates: NSHashTable<AnyObject>
+    private let delegates: NSHashTable<AnyObject>
 }
 {% endhighlight %}
 
-- Implement the initializer. Note the parameter `strongReferences` - you ask "Why is that? Delegates always weak?". No, not always. For example, delegates can be strong for CAAnimation delegate.
+<b>Implement the initializer. Note the parameter `strongReferences` - you ask "Why is that? Delegates always weak?". No, not always. For example, delegates can be strong for CAAnimation delegate.</b>
 
 {% highlight swift %}
 init(strongReferences: Bool = false) {
@@ -39,7 +39,7 @@ init(strongReferences: Bool = false) {
 }
 {% endhighlight %}
 
-- Now we can implement methods to add and remove delegates:
+<b>Now we can implement methods to add and remove delegates:</b>
 
 {% highlight swift %}
 func addDelegate(_ delegate: T) {
@@ -51,7 +51,7 @@ func removeDelegate(_ delegate: T) {
 }
 {% endhighlight %}
 
-- It now remains to implement invoking delegates. The method that the parameters will make the unit that accepts a delegate:
+<b>It now remains to implement invoking delegates. The method that the parameters will make the unit that accepts a delegate:</b>
 
 {% highlight swift %}
 func invokeDelegates(_ invocation: (T) -> ()) {
@@ -61,7 +61,7 @@ func invokeDelegates(_ invocation: (T) -> ()) {
 }
 {% endhighlight %}
 
-- Some more swift syntax improvements:
+<b>Some more swift syntax improvements:</b>
 
 {% highlight swift %}
 func +=<T> (left: AFMulticastDelegate<T>, right: T) {
@@ -82,7 +82,7 @@ func |><T> (left: AFMulticastDelegate<T>, right: (T) -> ()) {
 }
 {% endhighlight %}
 
-We're done. Well, now how do I use it? It's simple!
+<b>We're done. Well, now how do I use it? It's simple!</b>
 
 {% highlight swift %}
 class MessagesService: {
