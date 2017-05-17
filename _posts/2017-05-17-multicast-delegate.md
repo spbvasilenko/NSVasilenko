@@ -23,7 +23,7 @@ Secondly, as our multicast delegate will store weak references to the delegates?
 
 So let's start!
 
-1. Create a generic class MulticastDelegate, which has the property of delegates of type NSHashTable:
+- Create a generic class MulticastDelegate, which has the property of delegates of type NSHashTable:
 
 {% highlight swift %}
 class MulticastDelegate<T> {
@@ -31,7 +31,7 @@ class MulticastDelegate<T> {
 }
 {% endhighlight %}
 
-2. Implement the initializer. Note the parameter `strongReferences` - you ask "Why is that? Delegates always weak?". No, not always. For example, delegates can be strong for CAAnimation delegate.
+- Implement the initializer. Note the parameter `strongReferences` - you ask "Why is that? Delegates always weak?". No, not always. For example, delegates can be strong for CAAnimation delegate.
 
 {% highlight swift %}
 class MulticastDelegate<T> {
@@ -43,7 +43,7 @@ class MulticastDelegate<T> {
 }
 {% endhighlight %}
 
-3. Now we can implement methods to add and remove delegates:
+- Now we can implement methods to add and remove delegates:
 
 {% highlight swift %}
 class MulticastDelegate<T> {
@@ -63,7 +63,7 @@ class MulticastDelegate<T> {
 }
 {% endhighlight %}
 
-4. It now remains to implement invoking delegates. The method that the parameters will make the unit that accepts a delegate:
+- It now remains to implement invoking delegates. The method that the parameters will make the unit that accepts a delegate:
 
 {% highlight swift %}
 class MulticastDelegate<T> {
@@ -89,7 +89,7 @@ class MulticastDelegate<T> {
 }
 {% endhighlight %}
 
-5. Some more swift syntax improvements:
+- Some more swift syntax improvements:
 
 {% highlight swift %}
 func +=<T> (left: AFMulticastDelegate<T>, right: T) {
@@ -98,6 +98,15 @@ func +=<T> (left: AFMulticastDelegate<T>, right: T) {
 
 func -=<T> (left: AFMulticastDelegate<T>, right: T) {
     left.removeDelegate(right)
+}
+
+precedencegroup MulticastPrecendence {
+    associativity: left
+    higherThan: TernaryPrecedence
+}
+infix operator |> : MulticastPrecendence
+func |><T> (left: AFMulticastDelegate<T>, right: (T) -> ()) {
+    left.invokeDelegates(right)
 }
 {% endhighlight %}
 
