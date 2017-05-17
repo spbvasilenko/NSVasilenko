@@ -34,57 +34,29 @@ class MulticastDelegate<T> {
 - Implement the initializer. Note the parameter `strongReferences` - you ask "Why is that? Delegates always weak?". No, not always. For example, delegates can be strong for CAAnimation delegate.
 
 {% highlight swift %}
-class MulticastDelegate<T> {
-	private let delegates: NSHashTable<AnyObject>
-
-	init(strongReferences: Bool = false) {
-        delegates = strongReferences ? NSHashTable<AnyObject>(): NSHashTable<AnyObject>.weakObjects()
-    }
+init(strongReferences: Bool = false) {
+    delegates = strongReferences ? NSHashTable<AnyObject>(): NSHashTable<AnyObject>.weakObjects()
 }
 {% endhighlight %}
 
 - Now we can implement methods to add and remove delegates:
 
 {% highlight swift %}
-class MulticastDelegate<T> {
-	private let delegates: NSHashTable<AnyObject>
-
-	init(strongReferences: Bool = false) {
-        delegates = strongReferences ? NSHashTable<AnyObject>(): NSHashTable<AnyObject>.weakObjects()
-    }
-
-    func addDelegate(_ delegate: T) {
-        delegates.add(delegate as AnyObject)
-    }
+func addDelegate(_ delegate: T) {
+    delegates.add(delegate as AnyObject)
+}
     
-    func removeDelegate(_ delegate: T) {
-        delegates.remove(delegate as AnyObject)
-    }
+func removeDelegate(_ delegate: T) {
+    delegates.remove(delegate as AnyObject)
 }
 {% endhighlight %}
 
 - It now remains to implement invoking delegates. The method that the parameters will make the unit that accepts a delegate:
 
 {% highlight swift %}
-class MulticastDelegate<T> {
-	private let delegates: NSHashTable<AnyObject>
-
-	init(strongReferences: Bool = false) {
-        delegates = strongReferences ? NSHashTable<AnyObject>(): NSHashTable<AnyObject>.weakObjects()
-    }
-
-    func addDelegate(_ delegate: T) {
-        delegates.add(delegate as AnyObject)
-    }
-    
-    func removeDelegate(_ delegate: T) {
-        delegates.remove(delegate as AnyObject)
-    }
-
-    func invokeDelegates(_ invocation: (T) -> ()) {
-        for delegate in delegates.allObjects {
-            invocation(delegate as! T)
-        }
+func invokeDelegates(_ invocation: (T) -> ()) {
+    for delegate in delegates.allObjects {
+        invocation(delegate as! T)
     }
 }
 {% endhighlight %}
@@ -113,16 +85,16 @@ func |><T> (left: AFMulticastDelegate<T>, right: (T) -> ()) {
 We're done. Well, now how do I use it? It's simple!
 
 {% highlight swift %}
-// Create service instance
-let messagesService = AFMessagesService.instance
-// Subscribe to service delegate
-messagesService.delegate += self
+class MessagesService: {
+    let delegate = MulticastDelegate<MessagesServiceDelegate>()
+}
 {% endhighlight %}
 
 {% highlight swift %}
-class MessagesService: {
-	let delegate = MulticastDelegate<MessagesServiceDelegate>()
-}
+// Create service instance
+let messagesService = MessagesService.instance
+// Subscribe to service delegate
+messagesService.delegate += self
 {% endhighlight %}
 
 {% highlight swift %}
@@ -130,4 +102,4 @@ class MessagesService: {
 delegate |> { $0.messagesService(self, didReceivedMessage: channelMessage, inChannel: channel) }
 {% endhighlight %}
 
-
+Looks great!
