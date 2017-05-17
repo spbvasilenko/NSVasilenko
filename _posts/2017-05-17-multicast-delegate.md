@@ -64,11 +64,11 @@ func invokeDelegates(_ invocation: (T) -> ()) {
 <b>Some more swift syntax improvements:</b>
 
 {% highlight swift %}
-func +=<T> (left: AFMulticastDelegate<T>, right: T) {
+func +=<T> (left: MulticastDelegate<T>, right: T) {
     left.addDelegate(right)
 }
 
-func -=<T> (left: AFMulticastDelegate<T>, right: T) {
+func -=<T> (left: MulticastDelegate<T>, right: T) {
     left.removeDelegate(right)
 }
 
@@ -77,7 +77,7 @@ precedencegroup MulticastPrecendence {
     higherThan: TernaryPrecedence
 }
 infix operator |> : MulticastPrecendence
-func |><T> (left: AFMulticastDelegate<T>, right: (T) -> ()) {
+func |><T> (left: MulticastDelegate<T>, right: (T) -> ()) {
     left.invokeDelegates(right)
 }
 {% endhighlight %}
