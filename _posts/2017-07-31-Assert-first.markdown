@@ -42,6 +42,7 @@ testCompleteTransaction() {
 
 Но перед этим всем мы должны открыть соединение с сервером:
 
+{% highlight java %}
 testCompleteTransaction() {
   Server writer = Server(defaultPort(), "abc")
   Socket reader = Socket(“localhost”, defaultPort())
@@ -49,5 +50,6 @@ testCompleteTransaction() {
   assertTrue(reader.isClosed());
   assertEquals(“abc”, reply.contents())
 }
+{% endhighlight %}
 
 Теперь нам, возможно, прийдется подкорректировать некоторые имена на основе фактического использования, и тем не менее мы создали основу теста с помощью небольших ступеней и обдумывая каждое наше решение снизу вверх.
