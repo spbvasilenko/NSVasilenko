@@ -2,7 +2,7 @@
 layout: post
 title: Записки Кент Бека — Assert First
 excerpt: "Когда мы должны писать ассерты? Кент Бек предлагает писать их первыми."
-categories: [tdd, test-driven development, testing]
+categories: [TDD, test-driven development, testing]
 comments: true
 ---
 
