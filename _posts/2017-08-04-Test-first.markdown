@@ -2,7 +2,7 @@
 layout: post
 title: Записки Кент Бека — Test First
 excerpt: "Когда мы должны писать тесты? До того как вы напишите код, который будет тестироваться."
-categories: [tdd, test-driven development, testing]
+categories: [TDD, test-driven development, testing]
 comments: true
 ---
 
