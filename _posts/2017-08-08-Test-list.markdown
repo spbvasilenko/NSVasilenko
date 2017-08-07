@@ -2,7 +2,7 @@
 layout: post
 title: Записки Кент Бека — Test List
 excerpt: "Что мы должны тестировать? Перед тем как что-то начать, напишите список всех тестов, которые вы хотели бы написать."
-categories: [tdd, test-driven development, testing]
+categories: [TDD, test-driven development, testing]
 comments: true
 ---
 
