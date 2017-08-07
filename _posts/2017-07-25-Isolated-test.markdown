@@ -1,8 +1,8 @@
 ---
 layout: post
-title: Записки Кент Бека — Изолированный тест
+title: Записки Кент Бека — Isolated Test
 excerpt: "Как должны запущенные тесты влиять друг на друга? Ответ: Никак!"
-categories: [tdd, test-driven development, testing]
+categories: [TDD, test-driven development, testing]
 comments: true
 ---
 
