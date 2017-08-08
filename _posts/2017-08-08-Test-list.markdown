@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Записки Кент Бека — Test List
+title: Test-Driven Development By Example: Kent Beck. TDD паттерны: Test List.
 excerpt: "Что мы должны протестировать? Перед тем как начать, напишите список всех тестов, которые вы хотели бы реализовать"
 categories: [TDD, test-driven development, testing]
 comments: true
