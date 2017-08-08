@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Записки Кент Бека — Assert First
+title: Test-Driven Development By Example: Kent Beck. TDD паттерны: Assert First.
 excerpt: "Когда мы должны писать ассерты? Кент Бек предлагает писать их первыми."
 categories: [TDD, test-driven development, testing]
 comments: true
