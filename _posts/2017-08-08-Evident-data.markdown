@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Записки Кент Бека — Evident Data
+title: Test-Driven Development By Example: Kent Beck. TDD паттерны: Evident Data.
 excerpt: "Как вы представляете данные для теста? Включая ожидаемый и актуальный результаты, пытаясь сделать их связь между собой очевидной."
 categories: [TDD, test-driven development, testing]
 comments: true
