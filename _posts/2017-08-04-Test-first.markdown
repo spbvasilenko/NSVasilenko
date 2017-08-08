@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Записки Кент Бека — Test First
+title: Test-Driven Development By Example: Kent Beck. TDD паттерны: Test First.
 excerpt: "Когда мы должны писать тесты? До того как вы напишите код, который будет тестироваться."
 categories: [TDD, test-driven development, testing]
 comments: true
