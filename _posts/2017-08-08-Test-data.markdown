@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Записки Кент Бека — Test Data
+title: Test-Driven Development By Example: Kent Beck. TDD паттерны: Test Data.
 excerpt: "Какие данные вы используете для test-first тестов? Используйте данные, которые делают ваши тесты проще для чтения и сопровождения."
 categories: [TDD, test-driven development, testing]
 comments: true
