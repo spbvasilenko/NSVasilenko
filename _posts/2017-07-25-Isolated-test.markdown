@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Записки Кент Бека — Isolated Test
+title: Test-Driven Development By Example: Kent Beck. TDD паттерны: Isolated Test.
 excerpt: "Как должны запущенные тесты влиять друг на друга? Ответ: Никак!"
 categories: [TDD, test-driven development, testing]
 comments: true
