@@ -6,6 +6,17 @@ categories: [TDD, test-driven development, testing]
 comments: true
 ---
 
+Цикл статей по TDD паттернам:
+
+* [Isolated Test](https://vasilenko.tech/articles/2017-07/Isolated-test)
+* [Test List](https://vasilenko.tech/articles/2017-08/Test-list)
+* [Test First](https://vasilenko.tech/articles/2017-08/Test-first)
+* [Assert First](https://vasilenko.tech/articles/2017-08/Assert-first)
+* [Test Data](https://vasilenko.tech/articles/2017-08/Test-data)
+* [Evident Data](https://vasilenko.tech/articles/2017-08/Evident-data)
+
+___
+
 <b>Название:</b> Isolated Test (Изолированный тест)
 
 <b>Определение:</b> Тесты не должны зависеть друг от друга.
@@ -51,14 +62,3 @@ ___
 <b>Определение:</b> Предпочтите в своих тестах явные данные, нежели вычисляемые.
 
 <b>Краткое описание:</b> При написании тестов мы могли бы перейти в режим расчета. Мы могли бы вычислить или рассчитать длинные значения. Не делайте этого, это может запутать читателя в отношении бизнес-логики.
-
-___
-
-Цикл статей по TDD паттернам:
-
-* [Isolated Test](https://vasilenko.tech/articles/2017-07/Isolated-test)
-* [Test List](https://vasilenko.tech/articles/2017-08/Test-list)
-* [Test First](https://vasilenko.tech/articles/2017-08/Test-first)
-* [Assert First](https://vasilenko.tech/articles/2017-08/Assert-first)
-* [Test Data](https://vasilenko.tech/articles/2017-08/Test-data)
-* [Evident Data](https://vasilenko.tech/articles/2017-08/Evident-data)
