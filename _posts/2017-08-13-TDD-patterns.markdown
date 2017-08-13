@@ -11,7 +11,7 @@ comments: true
 * [Isolated Test](https://vasilenko.tech/articles/2017-07/Isolated-test)
 * [Test List](https://vasilenko.tech/articles/2017-08/Test-list)
 * [Test First](https://vasilenko.tech/articles/2017-08/Test-first)
-* [Assert First](https://vasilenko.tech/articles/2017-08/Assert-first)
+* [Assert First](https://vasilenko.tech/articles/2017-07/Assert-first)
 * [Test Data](https://vasilenko.tech/articles/2017-08/Test-data)
 * [Evident Data](https://vasilenko.tech/articles/2017-08/Evident-data)
 
