@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://vasilenko.tech/sitemap.xml
