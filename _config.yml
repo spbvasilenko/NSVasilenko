@@ -28,8 +28,11 @@ kramdown:
   toc_levels: 1..6
   enable_coderay: false
   
-plugins:
+gems:
   - jekyll-sitemap
+
+exclude:
+  - Gemfile
 
 #
 ###################################
